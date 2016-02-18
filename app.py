@@ -28,7 +28,7 @@ def graph():
 #  actual_th=[aa/1000 for aa in actual]
   actual_th=[435,390,255.25,433,364.5,478,640,618,680,390,527,1300,690,528.25,422.5,749,831,570,535,1035,550,991,627,1835,627.5,1800,1056,892.5,1497]
 
-  plot.circle(x,actualPrices, size=10)
+  plot.circle(x,actual_th, size=10)
 
   y=pd.read_csv('predHousePrice_bySAT.csv')
   y1=y['predicted_price'].tolist()
