@@ -6,7 +6,7 @@ import pandas as pd
 from bokeh.plotting import figure
 from bokeh.embed import components 
 from bokeh.charts import Bar
-from bokeh.objects import Range1d
+#from bokeh.objects import Range1d
 
 app = Flask(__name__)
 
