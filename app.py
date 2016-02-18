@@ -19,10 +19,9 @@ def index():
 def graph():
 
   myData=pd.read_csv('myData.csv')
-  plot = figure(width=450, height=450, title='Median Home Prices vs. SAT Score',
+  plot = figure(width=450, height=450, y_axis_label='Median Home Sale Price',
                 x_axis_label='SAT Score')
   plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'], size=10)
-  #plot.circle([1,2,3],[1,2,3])
   
   x=myData['Mean Total SAT'].tolist()
   y=pd.read_csv('predHousePrice_bySAT.csv')
