@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect
 import csv
 import pandas as pd
 
+from bokeh.plotting import figure
+from bokeh.embed import components 
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -12,8 +15,19 @@ def main():
 def index():
   return render_template('index.html')
 
+@app.route('/graph')
+def graph():
 
-myData=pd.read_csv('myData.csv')
+  myData=pd.read_csv('myData.csv')
+  plot = figure(title='Median Home Prices vs. SAT Score',
+                x_axis_label='SAT Score')
+
+  
+  script, div = components(plot)
+  return render_template('graph.html', script=script, div=div)
+
+
+
 
 #predHousePrice_bySAT
 
