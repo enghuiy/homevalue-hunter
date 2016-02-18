@@ -18,10 +18,11 @@ def index():
 @app.route('/graph')
 def graph():
 
-  myData=pd.read_csv('myData.csv')
+  #myData=pd.read_csv('myData.csv')
   plot = figure(title='Median Home Prices vs. SAT Score',
-                x_axis_label='SAT Score')
-  plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'],)
+                x_axis_label='SAT Score', y_axis_label='Median Home Price')
+  #plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'])
+  plot.circle([1 2 3],[1 2 3])
   
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)
