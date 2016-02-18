@@ -26,7 +26,7 @@ def graph():
   
   xs=sorted(myData['Mean Total SAT'].tolist())
 
-  y1=pd.read_csv('./OUTDATA/predHousePrice_bySAT.csv')
+  y1=pd.read_csv('predHousePrice_bySAT.csv')
   y1s=sorted(y1['predicted_price'].tolist())
   
   plot.line(xs,y1s,color='black')
