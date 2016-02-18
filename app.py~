@@ -50,8 +50,8 @@ def graph2():
 
   towns=["Yorktown","Croton-on-Hudson","Ardsley","Ossining","Chappaqua","Lewisboro","Elmsford","Somers","Pleasantville","North","Mount","New","Armonk","White","Dobbs","Greenburgh","Peekskill","Port","Bedford","Mount","Eastchester","Mamaroneck","Scarsdale","Irvington","Tuckahoe","Bronxville","Rye","Harrison","Yonkers"]
   pctDiff=[-44.78,-42.63,-41.59,-41.24,-31.13,-28.63,-25.64,-25.37,-23.48,23.0,80.0,50.0,-7.70,43.0,25.0,-2.07,-2.00,42.0,6.68,20.0,10.71,11.44,14.30,18.74,37.19,57.59,68.30,92.50,100.59]
-  df = pd.DataFrame({ 'Municipalities' : towns,'% difference (actual vs. predicted)' : pctDiff})
-  plot = Bar(df, 'Municipalities', values='% difference (acutal vs. predicted)', title="Under-/Over-valued municipalities")
+  df = pd.DataFrame({ 'Municipalities' : towns,'pctDiff' : pctDiff})
+  plot = Bar(df, 'Municipalities', values='pctDiff', title="Under-/Over-valued municipalities")
 
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)
