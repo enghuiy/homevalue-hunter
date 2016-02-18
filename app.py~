@@ -28,7 +28,7 @@ def graph():
   y=pd.read_csv('predHousePrice_bySAT.csv')
   y1=y['predicted_price'].tolist()
   xy = zip(x,y1)
-  xy_sorted = sorted(xy, key = lambda x : x[1],reverse=False)
+  xy_sorted = sorted(xy, key = lambda x : x[0],reverse=False)
   
   plot.line(list(zip(*xy_sorted)[0]),list(zip(*xy_sorted)[1]),color='black')
 
