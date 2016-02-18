@@ -19,7 +19,7 @@ def index():
 def graph():
 
   #myData=pd.read_csv('myData.csv')
-  plot = figure(title='Median Home Prices vs. SAT Score',
+  plot = figure(width=450, height=450, title='Median Home Prices vs. SAT Score',
                 x_axis_label='SAT Score')
   #plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'])
   plot.circle([1,2,3],[1,2,3])
@@ -32,4 +32,4 @@ def graph():
 
 if __name__ == '__main__':
 #  app.run(port=33507)
-  app.run('0.0.0.0')
+  app.run(debug=True)
