@@ -30,7 +30,7 @@ def graph():
   xy = zip(x,y1)
   xy_sorted = sorted(xy, key = lambda x : x[1],reverse=False)
   
-  plot.line(zip(*xy_sorted)[0],zip(*xy_sorted)[1],color='black')
+  plot.line(list(zip(*xy_sorted)[0]),list(zip(*xy_sorted)[1]),color='black')
 
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)
