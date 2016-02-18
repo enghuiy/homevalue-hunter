@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect
 #import csv
 import pandas as pd
 
-
 from bokeh.plotting import figure
 from bokeh.embed import components 
 from bokeh.charts import Bar
