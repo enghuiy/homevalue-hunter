@@ -6,6 +6,7 @@ import pandas as pd
 from bokeh.plotting import figure
 from bokeh.embed import components 
 from bokeh.charts import Bar
+from bokeh.objects import Range1d
 
 app = Flask(__name__)
 
@@ -51,9 +52,12 @@ def graph2():
   towns=["Yorktown","Croton-on-Hudson","Ardsley","Ossining","Chappaqua","Lewisboro","Elmsford","Somers","Pleasantville","North Salem","Mount Vernon","New Rochelle","Armonk","White Plains","Dobbs Ferry","Greenburgh","Peekskill","Port Chester","Bedford","Mount Pleasant","Eastchester","Mamaroneck","Scarsdale","Irvington","Tuckahoe","Bronxville","Rye","Harrison","Yonkers"]
 
   pctDiff=[-44.78,-42.63,-41.59,-41.24,-31.13,-28.63,-25.64,-25.37,-23.48,-18.64,-16.18,-8.03,-7.70,-7.45,-5.31,-2.07,-2.00,4.01,6.68,8.54,10.71,11.44,14.30,18.74,37.19,57.59,68.30,92.50,100.59]
-
+    index=range(len(pctDiff))
   df = pd.DataFrame({ 'Municipalities' : towns,'pctDiff' : pctDiff})
-  plot = Bar(df, label='Municipalities', values='pctDiff', title="Under-/Over-valued municipalities",agg='min',color='green')
+  plot = Bar(df, label='Municipalities', values='pctDiff', title="Under-/Over-valued municipalities",agg='min',color='green',continuous_range=Range1d(-100,100))
+
+#  plot = figure(width=450, height=450, y_axis_label='Median Home Sale Price (thousands)', x_axis_label='SAT Score')
+#  plot.square(index,pctDiff, size=20)
 
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)

@@ -53,7 +53,7 @@ def graph2():
   pctDiff=[-44.78,-42.63,-41.59,-41.24,-31.13,-28.63,-25.64,-25.37,-23.48,-18.64,-16.18,-8.03,-7.70,-7.45,-5.31,-2.07,-2.00,4.01,6.68,8.54,10.71,11.44,14.30,18.74,37.19,57.59,68.30,92.50,100.59]
 
   df = pd.DataFrame({ 'Municipalities' : towns,'pctDiff' : pctDiff})
-  plot = Bar(df, label='Municipalities', values='pctDiff', title="Under-/Over-valued municipalities",agg='mean')
+  plot = Bar(df, label='Municipalities', values='pctDiff', title="Under-/Over-valued municipalities",agg='min',color='green')
 
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)
