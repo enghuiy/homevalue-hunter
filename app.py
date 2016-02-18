@@ -21,9 +21,12 @@ def graph():
   myData=pd.read_csv('myData.csv')
   plot = figure(width=450, height=450, y_axis_label='Median Home Sale Price (thousands)',
                 x_axis_label='SAT Score')
-  plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'], size=10)
   
   x=myData['Mean Total SAT'].tolist()
+  actual=myData['Median Home Sale Price'].tolist()
+  actual_th=[aa/1000 for aa in actual]
+  plot.circle(x,actual_th, size=10)
+
   y=pd.read_csv('predHousePrice_bySAT.csv')
   y1=y['predicted_price'].tolist()
   y_th=[yy/1000 for yy in y1]

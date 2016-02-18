@@ -19,14 +19,15 @@ def index():
 def graph():
 
   myData=pd.read_csv('myData.csv')
-  plot = figure(width=450, height=450, y_axis_label='Median Home Sale Price',
+  plot = figure(width=450, height=450, y_axis_label='Median Home Sale Price (thousands)',
                 x_axis_label='SAT Score')
   plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'], size=10)
   
   x=myData['Mean Total SAT'].tolist()
   y=pd.read_csv('predHousePrice_bySAT.csv')
   y1=y['predicted_price'].tolist()
-  xy = zip(x,y1)
+  y_th=[yy/1000 for yy in y1]
+  xy = zip(x,y_th)
   xy_sorted = sorted(xy, key = lambda x : x[0],reverse=False)
   
   plot.line(list(zip(*xy_sorted)[0]),list(zip(*xy_sorted)[1]),color='black',line_width=3)
