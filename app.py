@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import csv
 import pandas as pd
+import importdata
 
 from bokeh.plotting import figure
 from bokeh.embed import components 
@@ -23,9 +24,9 @@ def graph():
                 x_axis_label='SAT Score')
   
   x=myData['Mean Total SAT'].tolist()
-  actual=myData['Median Home Sale Price'].tolist()
-  actual_th=[aa/1000 for aa in actual]
-  plot.circle(x,actual_th, size=10)
+#  actual=myData['Median Home Sale Price'].tolist()
+#  actual_th=[aa/1000 for aa in actual]
+  plot.circle(x,actualPrices, size=10)
 
   y=pd.read_csv('predHousePrice_bySAT.csv')
   y1=y['predicted_price'].tolist()
