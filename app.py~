@@ -22,7 +22,7 @@ def graph():
   plot = figure(title='Median Home Prices vs. SAT Score',
                 x_axis_label='SAT Score', y_axis_label='Median Home Price')
   #plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'])
-  plot.circle([1 2 3],[1 2 3])
+  plot.circle([1,2,3],[1,2,3])
   
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)
