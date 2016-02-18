@@ -38,7 +38,7 @@ def graph():
 #  xy_sorted = sorted(xy, key = lambda x : x[0],reverse=False)  
 #  plot.line(list(zip(*xy_sorted)[0]),list(zip(*xy_sorted)[1]),color='black',line_width=3)
   predicted=[216.858,465.26,260.452,416.305,490.198,488.091,695.914,667.78,495.654,663.705,485.537,675.315,623.262,649.261,765.09,791.005,778.975,744.91,716.888,928.786,958.664,834.573,878.505,1090.35,1074.24,1142.23,1144.06,1295.92,1309.7]
-  plot.line(x,predictedcolor='black',line_width=3)
+  plot.line(x,predicted,color='black',line_width=3)
 
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)
