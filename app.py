@@ -26,7 +26,7 @@ def graph():
   
   x=myData['Mean Total SAT'].tolist()
   y=pd.read_csv('predHousePrice_bySAT.csv')
-  y1=y1['predicted_price'].tolist()
+  y1=y['predicted_price'].tolist()
   xy = zip(x,y1)
   xy_sorted = sorted(xy, key = lambda x : x[1],reverse=False)
   
