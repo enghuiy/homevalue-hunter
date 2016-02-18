@@ -24,12 +24,13 @@ def graph():
   plot.circle(myData['Mean Total SAT'],myData['Median Home Sale Price'], size=10)
   #plot.circle([1,2,3],[1,2,3])
   
-  xs=sorted(myData['Mean Total SAT'].tolist())
-
-  y1=pd.read_csv('predHousePrice_bySAT.csv')
-  y1s=sorted(y1['predicted_price'].tolist())
+  x=myData['Mean Total SAT'].tolist()
+  y=pd.read_csv('predHousePrice_bySAT.csv')
+  y1=y1['predicted_price'].tolist()
+  xy = zip(x,y1)
+  xy_sorted = sorted(xy, key = lambda x : x[1],reverse=False)
   
-  plot.line(xs,y1s,color='black')
+  plot.line(zip(*xy_sorted)[0],zip(*xy_sorted)[1],color='black')
 
   script, div = components(plot)
   return render_template('graph.html', script=script, div=div)
