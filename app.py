@@ -38,7 +38,7 @@ def index():
       conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
 
     except:
-      print "I am unable to connect to the database"
+      return "Error: unable to connect to database"
 
     cur = conn.cursor()
     cur.execute("""SELECT "ZPRICE","SCORE" from price2features WHERE "SCORE" > 0""")
@@ -49,9 +49,9 @@ def index():
 
     # run linear regression
 
-    #r2,ypredicted =  linearRegression(features,homevalue)
-    #ypredicted_scaled = [ x / 1000 for x in ypredicted]
-    #homevalue_scaled = [ x / 1000 for x in homevalue]
+    r2,ypredicted =  linearRegression(features,homevalue)
+    ypredicted_scaled = [ x / 1000 for x in ypredicted]
+    homevalue_scaled = [ x / 1000 for x in homevalue]
 
     # plot with bokeh
     #plot = figure(width=450, height=450, y_axis_label='Home Price', x_axis_label='Features')
