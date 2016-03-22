@@ -47,11 +47,11 @@ def index():
     except:
       print "I am unable to connect to the database"
 
-    #cur = conn.cursor()
-    #cur.execute("""SELECT "ZPRICE","SCORE" from price2features WHERE "SCORE" > 0""")
-    #data=zip(*cur.fetchall())
-    #homevalue = list(data[0])
-    #features  = list(data[1])
+    cur = conn.cursor()
+    cur.execute("""SELECT "ZPRICE","SCORE" from price2features WHERE "SCORE" > 0""")
+    data=zip(*cur.fetchall())
+    homevalue = list(data[0])
+    features  = list(data[1])
     #print "%10f %4.1f" %(homevalue[0],features[0]) 
 
     # run linear regression
@@ -68,7 +68,7 @@ def index():
     #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
 
     #return render_template('graph.html', script=script, div=div)
-    return render_template('temp.html')
+    return render_template('temp.html',data=homevalue[0])
 
   return render_template('index.html')
 
