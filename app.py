@@ -24,9 +24,9 @@ def index():
   if request.method == 'POST':
 
     # get user-defined search area (currently not used)
-    query_center=request.form['center']
-    query_radius=request.form['radius']
-    query_features=request.form['features']
+    #query_center=request.form['center']
+    #query_radius=request.form['radius']
+    #query_features=request.form['features']
     # blah blah
 
     # get data from postgresql
@@ -67,7 +67,7 @@ def index():
     #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
 
     #return render_template('graph.html', script=script, div=div)
-    return render_template('temp.html',data=query_features)
+    return render_template('temp.html')
 
   return render_template('index.html')
 
