@@ -31,19 +31,12 @@ def index():
     # blah blah
 
     # get data from postgresql
-
-    #PGPASSWORD='BwiqB5tkJ7F_maajBNRCRr31Ag'
-    #HOST='ec2-54-83-22-48.compute-1.amazonaws.com'
-    #USER='ofnhsnebpcurpl'
-    #DATABASE='daaricgfqmsolv'
-    #PORT=5432
-
     urlparse.uses_netloc.append("postgres")
     url = urlparse.urlparse(os.environ["DATABASE_URL"])
     try:
       #conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
       conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
-      #conn = psycopg2.connect(database=DATABASE,user=USER,password=PGPASSWORD,host=HOST,port=PORT)
+
     except:
       print "I am unable to connect to the database"
 
@@ -56,16 +49,16 @@ def index():
 
     # run linear regression
 
-    #r2,ypredicted =  linearRegression(features,homevalue)
-    #ypredicted_scaled = [ x / 1000 for x in ypredicted]
-    #homevalue_scaled = [ x / 1000 for x in homevalue]
+    r2,ypredicted =  linearRegression(features,homevalue)
+    ypredicted_scaled = [ x / 1000 for x in ypredicted]
+    homevalue_scaled = [ x / 1000 for x in homevalue]
 
     # plot with bokeh
     #plot = figure(width=450, height=450, y_axis_label='Home Price', x_axis_label='Features')
     #y=[0,1,2]
     #plot.line(y,y,color='green',line_width=2)
     #script, div = components(plot)
-    #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
+    script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
 
     #return render_template('graph.html', script=script, div=div)
     return render_template('temp.html',data=homevalue[0])
