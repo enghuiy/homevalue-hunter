@@ -19,9 +19,13 @@ app = Flask(__name__)
 def main():
   return redirect('/index')
 
-@app.route('/index', methods=['POST', 'GET'])
+#@app.route('/index', methods=['POST', 'GET'])
+@app.route('/index')
 def index():
-  if request.method == 'POST':
+
+  return "hallo world!"
+
+  #if request.method == 'POST':
 
     # get user-defined search area (currently not used)
     #query_center=request.form['center']
@@ -67,7 +71,7 @@ def index():
     #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
 
     #return render_template('graph.html', script=script, div=div)
-    return render_template('temp.html')
+    #return render_template('temp.html')
 
   return render_template('index.html')
 
