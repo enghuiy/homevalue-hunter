@@ -5,3 +5,4 @@ scikit-learn
 bokeh
 flask
 jinja2
+gunicorn

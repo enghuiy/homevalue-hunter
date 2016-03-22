@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect
 
-#import os
-#import psycopg2
-#import urlparse
+import os
+import psycopg2
+import urlparse
 
 #import numpy as np
 #from sklearn import linear_model as lm
@@ -38,14 +38,14 @@ def index():
     #DATABASE='daaricgfqmsolv'
     #PORT=5432
 
-    #urlparse.uses_netloc.append("postgres")
-    #url = urlparse.urlparse(os.environ["DATABASE_URL"])
-    #try:
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    try:
       #conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
-      #conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
       #conn = psycopg2.connect(database=DATABASE,user=USER,password=PGPASSWORD,host=HOST,port=PORT)
-    #except:
-     # print "I am unable to connect to the database"
+    except:
+      print "I am unable to connect to the database"
 
     #cur = conn.cursor()
     #cur.execute("""SELECT "ZPRICE","SCORE" from price2features WHERE "SCORE" > 0""")
