@@ -1,11 +1,17 @@
 from flask import Flask, render_template, request, redirect
-#import csv
-import pandas as pd
+#import pandas as pd
+
+import os
+import psycopg2
+import urlparse
+
+import numpy as np
+from sklearn import linear_model as lm
+from sklearn.metrics import r2_score
 
 from bokeh.plotting import figure
-from bokeh.embed import components 
-from bokeh.charts import Bar
-from bokeh.models import Range1d
+from bokeh.embed import components
+from bokeh.models import HoverTool
 
 app = Flask(__name__)
 
@@ -13,59 +19,108 @@ app = Flask(__name__)
 def main():
   return redirect('/index')
 
-@app.route('/index')
+@app.route('/index', methods=['POST', 'GET'])
 def index():
+  if request.method == 'POST':
+
+    # get user-defined search area (currently not used)
+    query_center=request.form['center']
+    query_radius=request.form['radius']
+    query_features=request.form['features']
+    # blah blah
+
+    # get data from postgresql
+
+    #PGPASSWORD='BwiqB5tkJ7F_maajBNRCRr31Ag'
+    #HOST='ec2-54-83-22-48.compute-1.amazonaws.com'
+    #USER='ofnhsnebpcurpl'
+    #DATABASE='daaricgfqmsolv'
+    #PORT=5432
+
+    #urlparse.uses_netloc.append("postgres")
+    #url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    #try:
+      #conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+      #conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      #conn = psycopg2.connect(database=DATABASE,user=USER,password=PGPASSWORD,host=HOST,port=PORT)
+    #except:
+     # print "I am unable to connect to the database"
+
+    #cur = conn.cursor()
+    #cur.execute("""SELECT "ZPRICE","SCORE" from price2features WHERE "SCORE" > 0""")
+    #data=zip(*cur.fetchall())
+    #homevalue = list(data[0])
+    #features  = list(data[1])
+    #print "%10f %4.1f" %(homevalue[0],features[0]) 
+
+    # run linear regression
+
+    #r2,ypredicted =  linearRegression(features,homevalue)
+    #ypredicted_scaled = [ x / 1000 for x in ypredicted]
+    #homevalue_scaled = [ x / 1000 for x in homevalue]
+
+    # plot with bokeh
+    #plot = figure(width=450, height=450, y_axis_label='Home Price', x_axis_label='Features')
+    #y=[0,1,2]
+    #plot.line(y,y,color='green',line_width=2)
+    #script, div = components(plot)
+    #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
+
+    #return render_template('graph.html', script=script, div=div)
+    return render_template('temp.html',data=query_features)
+
   return render_template('index.html')
 
-@app.route('/graph1')
-def graph1():
+#===================================================
+# normalization
+def norm(x_in,x_norm):
+    
+    x_mu = np.mean(x_in)
+    x_range = np.amax(x_in) - np.amin(x_in)
+    x_norm [:] = [ ( x - x_mu ) / float (x_range) for x in x_in]
+    return (x_mu, x_range)
 
-#  myData=pd.read_csv('myData.csv')
-  plot = figure(width=450, height=450, y_axis_label='Median Home Sale Price (thousands)',
-                x_axis_label='SAT Score')
+# convert back to abs value
+def unnorm(x_mu, x_range, x_norm):
+    x_out=[]
+    x_out [:] = [ x*x_range+x_mu for x in x_norm ]
+    return x_out
+
+# univariate regression
+# univariate regression
+def linearRegression(features,homevalue):
+    x_norm=[]; y_norm=[]
+    (x_mu,x_range) = norm(features,x_norm)
+    (y_mu, y_range) = norm(homevalue, y_norm)
+
+    X_train = np.asarray(zip( np.ones(len(x_norm)),x_norm))
+
+    # Create linear regression object
+    regr = lm.LinearRegression()
+    regr.fit(X_train, y_norm)
+
+    # convert y back to abs value
+    y_predicted_norm = regr.predict(X_train)
+    y_predicted = unnorm(y_mu,y_range,y_predicted_norm)
+
+    r2=r2_score(y_norm, y_predicted_norm)
+
+    return (r2,y_predicted)
+
+# plot with bokeh
+def plotLR(feature1D,homevalue,y_predicted):
+
+  TOOLS = 'box_zoom,box_select,resize,reset,hover'
   
-#  x=myData['Mean Total SAT'].tolist()
-#  actual=myData['Median Home Sale Price'].tolist()
-#  actual_th=[aa/1000 for aa in actual]
-  x=[1191.8,1206.0,1329.0,1372.0,1399.0,1418.0,1472.0,1493.0,1497.0,1506.0,1517.0,1577.0,1581.0,1584.0,1627.0,1645.0,1649.0,1657.0,1658.0,1699.0,1724.0,1727.0,1744.0,1795.0,1812.0,1821.0,1852.0,1893.0,1935.0]
-  actual_th=[435,390,255.25,433,364.5,478,640,618,680,390,527,1300,690,528.25,422.5,749,831,570,535,1035,550,991,627,1835,627.5,1800,1056,892.5,1497]
-
-  plot.circle(x,actual_th, size=10)
-
-#  y=pd.read_csv('predHousePrice_bySAT.csv')
-#  y1=y['predicted_price'].tolist()
-#  y_th=[yy/1000 for yy in y1]
-#  xy = zip(x,y_th)
-#  xy_sorted = sorted(xy, key = lambda x : x[0],reverse=False)  
-#  plot.line(list(zip(*xy_sorted)[0]),list(zip(*xy_sorted)[1]),color='black',line_width=3)
-  predicted=[180.037,199.848,371.858,431.991,469.749,496.32,571.836,601.203,606.797,619.383,634.766,718.673,724.267,728.462,788.596,813.768,819.362,830.549,831.948,889.284,924.245,928.441,952.214,1023.53,1047.31,1059.89,1103.25,1160.58,1219.32]
-
-  plot.line(x,predicted,color='black',line_width=3)
+  plot = figure(width=500, height=500, y_axis_label='Home Price (thousands)', x_axis_label='Features',tools=TOOLS)
+  plot.line(feature1D,y_predicted,color='green',line_width=3)
+  plot.circle(feature1D,homevalue, color='grey',size=3)
 
   script, div = components(plot)
-  return render_template('graph.html', script=script, div=div)
 
-@app.route('/graph2')
-def graph2():
+  return (script, div)
 
-  towns=["Yorktown","Croton-on-Hudson","Ardsley","Ossining","Chappaqua","Lewisboro","Elmsford","Somers","Pleasantville","North Salem","Mount Vernon","New Rochelle","Armonk","White Plains","Dobbs Ferry","Greenburgh","Peekskill","Port Chester","Bedford","Mount Pleasant","Eastchester","Mamaroneck","Scarsdale","Irvington","Tuckahoe","Bronxville","Rye","Harrison","Yonkers"]
-
-  pctDiff=[-44.78,-42.63,-41.59,-41.24,-31.13,-28.63,-25.64,-25.37,-23.48,-18.64,-16.18,-8.03,-7.70,-7.45,-5.31,-2.07,-2.00,4.01,6.68,8.54,10.71,11.44,14.30,18.74,37.19,57.59,68.30,92.50,100.59]
-#    index=range(len(pctDiff))
-  df = pd.DataFrame({ 'Municipalities' : towns,'pctDiff' : pctDiff})
-  plot = Bar(df, label='Municipalities', values='pctDiff', title="Under-/Over-valued municipalities",agg='min',color='green',continuous_range=Range1d(-100,100))
-# plot = Bar(df, label='Municipalities', values='pctDiff', title="Under-/Over-valued municipalities",agg='min',color='green')
-
-#  plot = figure(width=450, height=450, y_axis_label='Median Home Sale Price (thousands)', x_axis_label='SAT Score')
-#  plot.square(index,pctDiff, size=20)
-
-  script, div = components(plot)
-  return render_template('graph.html', script=script, div=div)
-
-#predHousePrice_bySAT
-
+# RUN
 if __name__ == '__main__':
-#  app.run(port=33507)
-  app.run(debug=True)
-
-
+  app.run(port=33507)
+#  app.run(debug=True)
