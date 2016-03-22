@@ -1,17 +1,17 @@
 from flask import Flask, render_template, request, redirect
+
+#import os
+#import psycopg2
+#import urlparse
+
+#import numpy as np
+#from sklearn import linear_model as lm
+#from sklearn.metrics import r2_score
 #import pandas as pd
 
-import os
-import psycopg2
-import urlparse
-
-import numpy as np
-from sklearn import linear_model as lm
-from sklearn.metrics import r2_score
-
-from bokeh.plotting import figure
-from bokeh.embed import components
-from bokeh.models import HoverTool
+#from bokeh.plotting import figure
+#from bokeh.embed import components
+#from bokeh.models import HoverTool
 
 app = Flask(__name__)
 
@@ -122,5 +122,5 @@ def plotLR(feature1D,homevalue,y_predicted):
 
 # RUN
 if __name__ == '__main__':
-  app.run(port=33507)
-#  app.run(debug=True)
+#  app.run(port=33507)
+  app.run(debug=True)
