@@ -50,15 +50,15 @@ def index():
     # run linear regression
 
     r2,ypredicted =  linearRegression(features,homevalue)
-    ypredicted_scaled = [ x / 1000 for x in ypredicted]
-    homevalue_scaled = [ x / 1000 for x in homevalue]
+    #ypredicted_scaled = [ x / 1000 for x in ypredicted]
+    #homevalue_scaled = [ x / 1000 for x in homevalue]
 
     # plot with bokeh
     #plot = figure(width=450, height=450, y_axis_label='Home Price', x_axis_label='Features')
     #y=[0,1,2]
     #plot.line(y,y,color='green',line_width=2)
     #script, div = components(plot)
-    script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
+    #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
 
     #return render_template('graph.html', script=script, div=div)
     return render_template('temp.html',data=homevalue[0])
