@@ -28,6 +28,8 @@ def index():
     query_center=request.form['center']
     query_radius=request.form['radius']
     query_features=request.form['features']
+    feature_string = ",".join(query_features)
+    
     # blah blah
 
     # get data from postgresql
@@ -60,7 +62,7 @@ def index():
     #script, div = components(plot)
     script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
 
-    return render_template('graph.html', script=script, div=div)
+    return render_template('graph.html', script=script, div=div, features=feature_string)
     #return render_template('temp.html',data=homevalue[0])
 
   return render_template('index.html')
@@ -106,9 +108,9 @@ def plotLR(feature1D,homevalue,y_predicted):
 
   TOOLS = 'box_zoom,box_select,resize,reset,hover'
   
-  plot = figure(width=500, height=500, y_axis_label='Home Price (thousands)', x_axis_label='Features',tools=TOOLS)
+  plot = figure(y_axis_label='Home Price (thousands)', x_axis_label='Features',tools=TOOLS)
   plot.line(feature1D,y_predicted,color='green',line_width=3)
-  plot.circle(feature1D,homevalue, color='grey',size=3)
+  plot.circle(feature1D,homevalue, color='grey',size=5, alpha=0.5)
 
   script, div = components(plot)
 
