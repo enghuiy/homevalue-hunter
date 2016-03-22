@@ -6,3 +6,6 @@ bokeh
 flask
 jinja2
 gunicorn
+os
+psycopg2
+urlparse
