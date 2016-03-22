@@ -9,9 +9,9 @@ from sklearn import linear_model as lm
 from sklearn.metrics import r2_score
 #import pandas as pd
 
-#from bokeh.plotting import figure
-#from bokeh.embed import components
-#from bokeh.models import HoverTool
+from bokeh.plotting import figure
+from bokeh.embed import components
+from bokeh.models import HoverTool
 
 app = Flask(__name__)
 
@@ -58,10 +58,10 @@ def index():
     #y=[0,1,2]
     #plot.line(y,y,color='green',line_width=2)
     #script, div = components(plot)
-    #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
+    script, div = plotLR(features,homevalue_scaled,ypredicted_scaled)
 
-    #return render_template('graph.html', script=script, div=div)
-    return render_template('temp.html',data=homevalue[0])
+    return render_template('graph.html', script=script, div=div)
+    #return render_template('temp.html',data=homevalue[0])
 
   return render_template('index.html')
 
