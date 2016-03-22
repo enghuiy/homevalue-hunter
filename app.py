@@ -49,7 +49,7 @@ def index():
 
     # run linear regression
 
-    r2,ypredicted =  linearRegression(features,homevalue)
+    #r2,ypredicted =  linearRegression(features,homevalue)
     #ypredicted_scaled = [ x / 1000 for x in ypredicted]
     #homevalue_scaled = [ x / 1000 for x in homevalue]
 
