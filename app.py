@@ -4,9 +4,9 @@ import os
 import psycopg2
 import urlparse
 
-#import numpy as np
-#from sklearn import linear_model as lm
-#from sklearn.metrics import r2_score
+import numpy as np
+from sklearn import linear_model as lm
+from sklearn.metrics import r2_score
 #import pandas as pd
 
 #from bokeh.plotting import figure
