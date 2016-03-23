@@ -154,7 +154,7 @@ def plotLR(feature1D,homevalue,y_predicted,refnames,coefficient,intercept,r2):
     ])
 
   mtext(plot, min(feature1D) + 1,max(homevalue)-100000, "y = %6.2f x + (%6.2f)" %(coefficient,intercept))
-  mtext(plot, min(feature1D) + 1,max(homevalue)-250000, "R2=%5.3f" %(r2))
+  mtext(plot, min(feature1D) + 1,max(homevalue)-250000, "R2 = %5.3f" %(r2))
 
   script, div = components(plot)
 
@@ -162,5 +162,5 @@ def plotLR(feature1D,homevalue,y_predicted,refnames,coefficient,intercept,r2):
 
 # RUN
 if __name__ == '__main__':
-#  app.run(port=33507)
-  app.run(debug=True)
+  app.run(port=33507)
+#  app.run(debug=True)
