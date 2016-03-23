@@ -54,8 +54,7 @@ def index():
     # run linear regression
 
     coeffs,intercept,r2,ypredicted =  linearRegression(features,homevalue)
-    print coeffs
-    print intercept
+    
     ypredicted_scaled = [ x / 1 for x in ypredicted]
     homevalue_scaled = [ x / 1 for x in homevalue]
 
