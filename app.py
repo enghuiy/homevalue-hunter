@@ -71,8 +71,17 @@ def index():
 
 @app.route('/map')
 def map_test():
+
+  geojsonFeature = { "type": "Feature", 
+                     "properties": { "name": "Scarsdale", },
+                     "geometry": {
+                       "type": "Point",
+                       "coordinates": [-73.775, 42]
+                       }
+                     }
+
   
-  return render_template('map_test.html')
+  return render_template('map_test.html', gjson=geojsonFeature)
 
 #===================================================
 # normalization
