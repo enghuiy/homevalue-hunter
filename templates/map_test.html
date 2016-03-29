@@ -15,9 +15,22 @@
 
 <div id='map'></div>
 <script>
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Scarsdale",
+   },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-73.775, 40.9890445]
+    }
+};
 L.mapbox.accessToken ='pk.eyJ1IjoiZW5naHVpeSIsImEiOiJjaW1jYXc3dXUwMDAwdWRrbzc3cDZsaGEyIn0.Cr9h4ScdhaETwp__NbMMvw';
-var map = L.mapbox.map('map', 'mapbox.light')
-    .setView([41, -78.00], 7);
+var map = L.mapbox.map('map',
+'mapbox.light',featurelayer = true)
+    .setView([41, -77.00], 7);
+
+var featureLayer = L.mapbox.featureLayer({{gjson}}).addTo(map);
 </script>
 
 </body>
