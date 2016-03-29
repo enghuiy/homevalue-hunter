@@ -34,7 +34,6 @@ def index():
     feature_string = query_features
     
     # blah blah
-
     # get data from postgresql
     urlparse.uses_netloc.append("postgres")
     url = urlparse.urlparse(os.environ["DATABASE_URL"])
@@ -52,6 +51,11 @@ def index():
     homevalue = list(data[1])
     features  = list(data[2])
     #print "%10f %4.1f" %(homevalue[0],features[0]) 
+
+    # get the shapejsons from postgresql
+    cur.execute("""SELECT * from test3 where "REFSHPINDEX"=2;""")
+    r = cur.fetchall()
+    geojsonFeature1=r[0][1]
 
     # run linear regression
 
