@@ -83,7 +83,7 @@ def map_test():
                      }
 
   
-  return render_template('map_test.html', gjson=geojsonFeature1)
+  return render_template('map_test.html', gjson=geojsonFeature2)
 
 #===================================================
 # normalization
