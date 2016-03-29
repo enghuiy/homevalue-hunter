@@ -69,6 +69,11 @@ def index():
 
   return render_template('index.html')
 
+@app.route('/map')
+def map_test():
+  
+  return render_template('map_test.html')
+
 #===================================================
 # normalization
 def norm(x_in,x_norm):
