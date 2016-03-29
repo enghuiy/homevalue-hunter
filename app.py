@@ -53,7 +53,11 @@ def index():
     #print "%10f %4.1f" %(homevalue[0],features[0]) 
 
     # get the shapejsons from postgresql
-    cur.execute("""SELECT * from test3 where "REFSHPINDEX"=2;""")
+    try:
+      cur.execute("""SELECT * from test3 where "REFSHPINDEX"=2;""")
+    except:
+      print "cannot get jsons from database"
+    
     r = cur.fetchall()
     geojsonFeature1=r[0][1]
 
