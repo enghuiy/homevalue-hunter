@@ -285,9 +285,7 @@ var geojsonFeature2 = {
 
 
 L.mapbox.accessToken ='pk.eyJ1IjoiZW5naHVpeSIsImEiOiJjaW1jYXc3dXUwMDAwdWRrbzc3cDZsaGEyIn0.Cr9h4ScdhaETwp__NbMMvw';
-var map = L.mapbox.map('map',
-'mapbox.streets',featurelayer = true)
-    .setView([41, -77.00], 7);
+var map = L.mapbox.map('map','mapbox.streets',featurelayer = true).setView([41, -77.00], 7);
 
 var featureLayer = L.mapbox.featureLayer({{gjson|string|safe}},{style: style}).addTo(map);
 </script>
