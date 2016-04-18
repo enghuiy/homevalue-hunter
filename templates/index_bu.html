@@ -6,22 +6,15 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<style>
-body {padding-left: 25px;}
-h1 {color: green; text-align: center; margin: 25px 50px 25px 50px}
-h2 {color: grey;  text-align: center; margin: 25px 50px 25px 50px}
-h4 {color: green; margin: 25px 50px 25px 50px}
-p  {font-size: 18px; margin: 25px 50px 25px 50px}
-</style>
 	</head>
 	<body>
 		<div class=page>
-		  <h1>Homevalue Hunter</h1>
-		  <h2>Finding the best-valued locales, based on <i><u><b>your</b></i></u> personal criteria.</h2>
+		  <h1><font color="green">Homevalue Hunter</font></h1>
+		  <h2>Finding the best-valued locales based on your personal criteria</h2>
 
 		  <div class=metanav>
 
-		    <h4>Step 1: Define your search area:</h4>
+		    <h4>Define your search area:</h4>
 		    <form id='input' method='post' action='index'>
 		      <p>
 		       Center of your search (zipcode): <input type='text' name='center' value='10583'/><br>
@@ -32,18 +25,14 @@ p  {font-size: 18px; margin: 25px 50px 25px 50px}
 			  <OPTION> 10 miles
 			  <OPTION> 20 miles
 			  <OPTION> 50 miles
-			</SELECT> <br><br>
-			</p>
+			</SELECT> <br>
 
-			<h4>Step 2: Select your criteria:</h4>
-			<p>
-			<input type="checkbox" name="features" value="school_performance" checked > School performance
+			Criteria:<br>
+			<br><input type="checkbox" name="features" value="school_performance" checked > School performance
 			<br><input type="checkbox" name="features" value="crime_rate" > Crime rate
-			<br><input type="checkbox" name="features" value="roi" > Return on Investment (ROI)
 			<br><input type="checkbox" name="features" value="commute_time" > Commuting time
 			<br><input type="checkbox" name="features" value="walkability" > Walkability
-
-			<br>
+			<br><input type="checkbox" name="features" value="roi" > Return on Investment (ROI)
 
 			<br><input type="submit" value="Submit">
 

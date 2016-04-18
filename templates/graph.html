@@ -1,17 +1,47 @@
 <html>
   <head>
-    <link rel="stylesheet" href="//cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.css" type="text/css" />
+   <link rel="stylesheet" href="//cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.css" type="text/css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <script type="text/javascript" src="//cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.js"></script>
     {{ script | safe }}
+
+<style>
+body {left-padding = 25px}
+h1 {color: green; text-align: left; margin: 25px 25px 10px 25px}
+h2 {color: grey;  text-align: left; margin: 0px 25px 0px 25px;font-size:18px}
+h4 {color: grey; margin: 10px 25px 10px 25px}
+p  {font-size: 24px;text-align="left";}
+</style>
+
   </head>
   <body>
-    <div class=page>
-      <h1>Home Price vs. Features  </h1>
-      <h2>Features: {{features}} </h2>
-      {{ div | safe }}
+      <h1>Actual vs. Expected Home Price</h1>
+     <h2>based on {{featureString|string|safe}}</h2>
+
+<table style="width:100%">
+  <tr>
+    <td width=630>
+   <div class=page>
+
+     {{ div | safe }}
     </div>
 
+    </td>
+    <td>
+    <p>
+      Baseline price = ${{intercept|safe}}<br>
+      R<sup>2</sup> = {{r2|safe}}<br>
+      
+      <br><a href="/map">View Map</a>
+
+      </p>
+
+    </td>
+ </tr>
+</table>
+
     
-  </body>
+ </body>
 
 </html>
