@@ -49,11 +49,11 @@ def index():
     app.feature_string =  getFeatureString(app.vars['qfeatures'])
     
     # get data from postgresql
-    #urlparse.uses_netloc.append("postgres")
-    #url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
     try:
-      conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
-      #conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      #conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+      conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
     except:
       return "Error: unable to connect to database"
 
@@ -111,9 +111,11 @@ def map_test():
   if not app.validids:
     return render_template('index.html')
 
+  urlparse.uses_netloc.append("postgres")
+  url = urlparse.urlparse(os.environ["DATABASE_URL"])
   try:
-    conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
-      #conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+    #conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+    conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
   except:
     return "Error: unable to connect to database"
 
