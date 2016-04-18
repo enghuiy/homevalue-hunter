@@ -95,12 +95,35 @@ def index():
     coeffs,intercept,r2,app.prices_predicted =  linearRegression(app.features,app.prices_actual)
     app.locscores = [ (app.prices_actual[i]-app.prices_predicted[i])/app.prices_predicted[i]*100 for i in range(len(app.prices_predicted))]
 
+    #==========================================================
     # plot with bokeh
     #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled,refnames,coeffs[featureIndex],intercept,r2)
-    script, div = plotPrice2PriceLR(app.features,app.prices_actual,app.prices_predicted,app.refnames,coeffs,intercept,r2)
-    coeff_string=''
-    return render_template('graph.html', script=script, div=div, featureString=app.feature_string,coeffString=coeff_string,intercept='%d'%intercept,r2='%4.2f'%r2)
+    #script, div = plotPrice2PriceLR(app.features,app.prices_actual,app.prices_predicted,app.refnames,coeffs,intercept,r2)
+    #coeff_string=''
+    #return render_template('graph.html', script=script, div=div, featureString=app.feature_string,coeffString=coeff_string,intercept='%d'%intercept,r2='%4.2f'%r2)
     #return render_template('temp.html',data=homevalue[0])
+    #==========================================================
+    # plot map
+
+      #get the shapejsons from postgresql
+    try:
+      queryString=generateQueryString_json(app.validids)
+      print queryString
+      cur.execute(queryString)
+    except:
+      print "cannot get jsons from database"
+
+    r = cur.fetchall()
+    geojsonFeatures = zip(*r)[0]
+    temp=[] 
+    for i,jsonstring in enumerate(geojsonFeatures):
+      t1=jsonstring.replace('"STATEFP": "36"','"score":%f, "actual_price":%f, "predicted_price":%f' %(app.locscores[i],app.prices_actual[i],app.prices_predicted[i]))
+      t2=t1.replace('{"type": "FeatureCollection", "features": [', '')
+      t3=t2.replace('}}]}', '}}')
+      temp.append(t3)
+    
+    geojsonFeatures_new='{"type": "FeatureCollection", "features": ['+','.join(temp)+']}'
+    return render_template('map_test.html', featureString=app.feature_string,gjson=geojsonFeatures_new,center_lat=app.zlat,center_long=app.zlong)
 
   return render_template('index.html')
 
