@@ -184,7 +184,7 @@ def alternatives():
   cost_highschool = 22477
   cost_perchild = 8*cost_elemschool + 4*cost_highschool
   maxchild = 5
-  alt_cost = [ minhouseprice+ i*cost_perchild for i in range(maxchild)]
+  #alt_cost = [ minhouseprice+ i*cost_perchild for i in range(maxchild)]
   
   return render_template('alternatives.html')
 
