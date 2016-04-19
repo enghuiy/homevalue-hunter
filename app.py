@@ -95,6 +95,8 @@ def index():
     coeffs,intercept,r2,app.prices_predicted =  linearRegression(app.features,app.prices_actual)
     app.locscores = [ (app.prices_actual[i]-app.prices_predicted[i])/app.prices_predicted[i]*100 for i in range(len(app.prices_predicted))]
 
+    # write out fit stats
+    fitstats_string=generateHTML_fitstats(coeffs,intercept,r2)
     #==========================================================
     # plot with bokeh
     #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled,refnames,coeffs[featureIndex],intercept,r2)
@@ -173,6 +175,18 @@ def method():
 @app.route('/plots')
 def plots():
   return render_template('plots.html')
+
+@app.route('/alternatives')
+def alternatives():
+
+  minhouseprice = 352000 
+  cost_elemschool = 5845
+  cost_highschool = 22477
+  cost_perchild = 8*cost_elemschool + 4*cost_highschool
+  maxchild = 5
+  alt_cost = [ minhouseprice+ i*cost_perchild for i in range(maxchild)]
+  
+  return render_template('alternatives.html')
 
 #===================================================
  
@@ -350,6 +364,24 @@ def generateQueryString_json(refshpindexlist):
         
     return outstring
 
+
+def generateHTML_fitstats(coeffs,intercept,r2):
+  outstring='Baseline price = $%dK<br>' % intercept/1000
+  for i,f in enumerate(featurelist):
+    if f=='school_performance':
+      featurestring += 'school performance: '
+    elif f=='crime_rate':
+      featurestring+='crimerate_total'
+    elif f=='commute_time':
+      featurestring+='commute_time'
+    elif f=='walkability':
+      featurestring+='walkability'
+    elif f=='roi':
+      featurestring+='roi'
+    else:
+      pass
+    if i<len(featurelist)-1:
+      featurestring+=','
 
 
 # RUN
