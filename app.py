@@ -166,6 +166,14 @@ def map_test():
   
   return render_template('map_test.html', featureString=app.feature_string,gjson=geojsonFeatures_new,center_lat=app.zlat,center_long=app.zlong)
 
+@app.route('/method')
+def method():
+  return render_template('method.html')
+
+@app.route('/plots')
+def plots():
+  return render_template('plots.html')
+
 #===================================================
  
 def distance_on_unit_sphere(lat1, long1, lat2, long2):

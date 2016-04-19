@@ -1,0 +1,12 @@
+body {padding-left: 25px;}
+h1 {font-size: 36px; color: green; text-align: left; margin: 15px 5px 15px 5px}
+h2 {font-size: 26px; color: black;  text-align: left; margin: 5px 5px 5px 5px}
+h4 {color: black; margin: 5px 5px 5px 5px}
+p  {font-size: 16px; margin: 5px 5px 5px 5px}
+
+ul {    list-style-type: none;    margin: 0;    padding: 0;    overflow: hidden;  background-color: #737373;}
+li {font-size: 18px;float: left;}
+li a {display: block;    color: white;    text-align: center;    padding: 14px 16px; text-decoration: none;}
+li a:hover {    background-color: #fed976;}
+.active {    background-color: #238b45;}
+

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Methodology</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="../static/mystyle.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style>
+table { 
+border-spacing: 0;
+border-collapse: collapse;
+}
+th { background-color: #1b7837;    color: white;}
+th, td { font-size: 16px; padding: 3px;    text-align: left;}
+
+</style>
+</head>
+<body>
+<div class=page>
+  <h1>Methodology</h1>
+ <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/method">Methodology</a></li>
+    <li><a href="/plots">Plots</a></li>
+ </ul>
+
+  <h2>Data Sources</h2>
+ <p> Data were collected from various sources (see table). Assigning pricing and feature data to the
+ correct locale posed a challenge, due to inconsistent naming
+ conventions across datasets. This was solved using geocoding and a modified text
+ comparison technique inspired by species-to-species ortholog matching
+ in biology (see <a href="http://inparanoid.sbc.su.se">InParanoid</a>) to correctly assign
+ data to the right locale.</p>
+  <table border=1 style="width:80%">
+    <tr>
+      <th>	Data      </th>
+      <th>	Source      </th>
+      <th>	Collection Method      </th>
+    </tr>
+    <tr>
+      <td>	Median Home Price      </td>
+      <td>	Zillow      </td>
+      <td>	API      </td>
+    </tr>
+    <tr>
+      <td>	Locale boundaries (School Districts)      </td>
+      <td>	Census.gov      </td>
+      <td>	downloaded (.shx)      </td>
+    </tr>
+    <tr>
+      <td>	School Performance (3-8 grade, English & Math)      </td>
+      <td>	NYS Dept. Education      </td>
+      <td>	MS Database      </td>
+    </tr>
+    <tr>
+      <td>	Crime rate      </td>
+      <td>	NYS Div. Criminal Justice Service      </td>
+      <td>	downloaded (excel)      </td>
+    </tr>
+    <tr>
+      <td>	Return on Investment (ROI)      </td>
+      <td>	Zillow      </td>
+      <td>	downloaded (csv)      </td>
+    </tr>
+    <tr>
+      <td>	Commute time      </td>
+      <td>	www.bestplaces.net      </td>
+      <td>	Web scraping      </td>
+    </tr>
+    <tr>
+      <td>	Walkability      </td>
+      <td>	walkscore.com      </td>
+      <td>	API      </td>
+    </tr>
+ </table>
+ <br>
+  <h2>Analysis</h2>
+ <p>Pricing and feature data are stored in a Postgresql database on
+ the application server. Locales within a user-defined search area are
+ retreived and a linear regression performed real-time on the actual pricing
+ and selected features (X) to obtain expected pricing. The percentage
+ differences between actual and expected pricing are then reported to
+ identify over- and under-valued locales.</p>
+ 
+ </div>  
+  
+  </body>
+  </html>
+  
