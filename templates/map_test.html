@@ -45,91 +45,95 @@
 </ul>
 
 <p> <a href="/index">back to search</a></p>
-<div id='map'></div>
-
-<script type="text/javascript">
-function getColor(d) {
-    return d > 80  ? '#a50026' :
-           d > 60  ? '#d73027' :
-           d > 40  ? '#f46d43' :
-           d > 20  ? '#fdae61' :
-           d >   0  ? '#fee090' :
-           d > -20 ? '#e0f3f8' :
-           d > -40 ? '#abd9e9' :
-           d > -60 ? '#74add1' :
-           d > -80 ? '#4575b4' :
-           d >= -100 ? '#313695' :
-                       '#d9d9d9' ;
-}
-
-function style(feature) {
-    return {
-        weight: 1,
-        opacity: .6,
-        color: 'black',
-       fillColor: getColor(feature.properties.score),
-       fillOpacity: 0.7
-};
+<table style="width:100%">
+  <tr>
+    <td width=630>
+      
+    <div id='map'></div>
     
-}
-
-function highlightFeature(e) {
+    <script type="text/javascript">
+    function getColor(d) {
+    return d > 80  ? '#a50026' :
+    d > 60  ? '#d73027' :
+    d > 40  ? '#f46d43' :
+    d > 20  ? '#fdae61' :
+    d >   0  ? '#fee090' :
+    d > -20 ? '#e0f3f8' :
+    d > -40 ? '#abd9e9' :
+    d > -60 ? '#74add1' :
+    d > -80 ? '#4575b4' :
+    d >= -100 ? '#313695' :
+    '#d9d9d9' ;
+    }
+    
+    function style(feature) {
+    return {
+    weight: 1,
+    opacity: .6,
+    color: 'black',
+    fillColor: getColor(feature.properties.score),
+    fillOpacity: 0.7
+    };
+    
+    }
+    
+    function highlightFeature(e) {
     var layer = e.target;
     layer.setStyle({
-        weight: 5,
-        color: 'black',
-        dashArray: '',
-        fillOpacity: 0.7
+    weight: 5,
+    color: 'black',
+    dashArray: '',
+    fillOpacity: 0.7
     });
-
+    
     if (!L.Browser.ie && !L.Browser.opera) {
-        layer.bringToFront();
+    layer.bringToFront();
     }
     info.update(layer.feature.properties);
-
-}
-function resetHighlight(e) {
+    
+    }
+    function resetHighlight(e) {
     geojson.resetStyle(e.target);
     info.update();
-}
-
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-  });
-}
-
-
-var legend = L.control({position: 'bottomright'});
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'info legend'),
-
-  scores = [100,80,60,40,20,0,-20,-40,-60,-80,-100];
-  for (var i = 1; i < scores.length; i++) {
-       div.innerHTML +=
-            '<i style="background:' + getColor( (scores[i]+scores[i-1])/2) + '"></i> ' +
- scores[i] + ' '+'&ndash;' +' '+scores[i-1]+'%<br>';
     }
-   return div;
-};
-
-var info = L.control();
-
-info.onAdd = function (map) {
+    
+    function onEachFeature(feature, layer) {
+    layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight,
+    });
+    }
+    
+    
+    var legend = L.control({position: 'bottomleft'});
+    legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend'),
+    
+    scores = [100,80,60,40,20,0,-20,-40,-60,-80,-100];
+    for (var i = 1; i < scores.length; i++) {
+    div.innerHTML +=
+    '<i style="background:' + getColor( (scores[i]+scores[i-1])/2) + '"></i> ' +
+    scores[i] + ' '+'&ndash;' +' '+scores[i-1]+'%<br>';
+    }
+    return div;
+    };
+    
+    var info = L.control();
+    
+    info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     this.update();
     return this._div;
-};
+    };
 
-// method that we will use to update the control based on feature properties passed
-info.update = function (props) {
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
     this._div.innerHTML = (props ?
-       '<b>' + props.NAME + '</b><br>'+
-       'expected price = $'+(props.predicted_price/1000).toFixed(0) + 'K<br>'+
-       'actual price = $'+(props.actual_price/1000).toFixed(0) + 'K<br>'+
-       '<b>'+(props.score>0? '<font color="red">over-valued':'<font color="blue">under-valued')+ '</font></b> by: ' + Math.abs(props.score).toFixed(2) + '% <br>'
-       : 'Hover over a locale');
+    '<b>' + props.NAME + '</b><br>'+
+    'expected price = $'+(props.predicted_price/1000).toFixed(0) +
+    'K<br>'+ 'actual price = $'+(props.actual_price/1000).toFixed(0) +
+'K<br>'+ '<b>'+(props.score>0? '<font color="red">over-valued':'<font color="blue">under-valued')+ '</font></b> by: ' + Math.abs(props.score).toFixed(2) + '% <br>'
+: 'Hover over a locale');
 };
 
 
@@ -144,5 +148,8 @@ legend.addTo(map);
 info.addTo(map);
 
 </script>
+</td>
+<td>
+</td>
 </body>
 </html>
