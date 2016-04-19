@@ -12,7 +12,7 @@
 
 <style>   
 
-#map {width: 800px;height: 500px;}
+#map {width: 1000px;height: 450px;}
 .info {
     width: 250px;
     height: 128px;
@@ -134,7 +134,7 @@ info.update = function (props) {
 
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiZW5naHVpeSIsImEiOiJjaW1jYXc3dXUwMDAwdWRrbzc3cDZsaGEyIn0.Cr9h4ScdhaETwp__NbMMvw';
-var map = L.mapbox.map('map','mapbox.light',featurelayer = true).setView([{{center_lat|safe}},{{center_long|safe}}], 11);
+var map = L.mapbox.map('map','mapbox.light',featurelayer = true).setView([{{center_lat|safe}},{{center_long|safe}}], 10);
 
 geojson = L.geoJson({{gjson|string|safe}}, {style: style, onEachFeature: onEachFeature}).addTo(map);
 
