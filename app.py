@@ -96,7 +96,6 @@ def index():
     app.locscores = [ (app.prices_actual[i]-app.prices_predicted[i])/app.prices_predicted[i]*100 for i in range(len(app.prices_predicted))]
 
     # write out fit stats
-    fitstats_string=generateHTML_fitstats(coeffs,intercept,r2)
     #==========================================================
     # plot with bokeh
     #script, div = plotLR(features,homevalue_scaled,ypredicted_scaled,refnames,coeffs[featureIndex],intercept,r2)
