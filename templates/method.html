@@ -66,11 +66,9 @@ th, td { font-size: 16px; padding: 3px;    text-align: left;}
  <br>
   <h2>Analysis</h2>
  <p>Pricing and feature data are stored in a <b>Postgresql database</b> on
- the application server. Locales within a user-defined search area are
- retreived and a <b>linear regression</b> (scikit-learn) performed real-time on the actual pricing
- and selected features to obtain expected pricing. The percentage
- differences between actual and expected pricing are then reported to
- identify over- and under-valued locales.</p>
+ the application server. Pricing and selected features within the user-defined search area are
+ retreived and <b>real-time linear regressions</b> (scikit-learn) performed to obtain expected pricing. The percentage
+ differences between actual and expected pricing are then reported to identify over- and under-valued locales.</p>
  
  </div>  
   

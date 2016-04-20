@@ -10,16 +10,12 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import Imputer
 
-#import pandas as pd
-
 from bokeh.plotting import *
 from bokeh.embed import components
 from bokeh.models import HoverTool,sources
 from collections import OrderedDict
-from bokeh.charts import color, marker, Bar
 
 app = Flask(__name__)
-
 
 # global variables to be used on different pages
 app.vars={}
