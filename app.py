@@ -15,8 +15,6 @@ from bokeh.embed import components
 from bokeh.models import HoverTool,sources
 from collections import OrderedDict
 
-local=1
-
 app = Flask(__name__)
 
 # global variables to be used on different pages
@@ -48,16 +46,16 @@ def index():
     app.feature_string =  getFeatureString(app.vars['qfeatures'])
     
     # get data from postgresql
-    if local==1:
-      try:
-        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
-      except:
-        return "Error: unable to connect to database"
-    else:
+    if os.environ["DATABASE_URL"]:
       urlparse.uses_netloc.append("postgres")
       url = urlparse.urlparse(os.environ["DATABASE_URL"])
       try:
         conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      except:
+        return "Error: unable to connect to database"
+    else:
+      try:
+        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
       except:
         return "Error: unable to connect to database"
 
@@ -139,16 +137,16 @@ def map_test():
   if not app.validids:
     return render_template('index.html')
 
-    if local==1:
-      try:
-        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
-      except:
-        return "Error: unable to connect to database"
-    else:
+    if os.environ["DATABASE_URL"]:
       urlparse.uses_netloc.append("postgres")
       url = urlparse.urlparse(os.environ["DATABASE_URL"])
       try:
         conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      except:
+        return "Error: unable to connect to database"
+    else:
+      try:
+        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
       except:
         return "Error: unable to connect to database"
 
