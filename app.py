@@ -15,6 +15,8 @@ from bokeh.embed import components
 from bokeh.models import HoverTool,sources
 from collections import OrderedDict
 
+local=1
+
 app = Flask(__name__)
 
 # global variables to be used on different pages
@@ -46,13 +48,18 @@ def index():
     app.feature_string =  getFeatureString(app.vars['qfeatures'])
     
     # get data from postgresql
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(os.environ["DATABASE_URL"])
-    try:
-      #conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
-      conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
-    except:
-      return "Error: unable to connect to database"
+    if local==1:
+      try:
+        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+      except:
+        return "Error: unable to connect to database"
+    else:
+      urlparse.uses_netloc.append("postgres")
+      url = urlparse.urlparse(os.environ["DATABASE_URL"])
+      try:
+        conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      except:
+        return "Error: unable to connect to database"
 
     cur = conn.cursor()
     # 1) get long/lat base on zipcode
@@ -132,13 +139,18 @@ def map_test():
   if not app.validids:
     return render_template('index.html')
 
-  urlparse.uses_netloc.append("postgres")
-  url = urlparse.urlparse(os.environ["DATABASE_URL"])
-  try:
-    #conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
-    conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
-  except:
-    return "Error: unable to connect to database"
+    if local==1:
+      try:
+        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+      except:
+        return "Error: unable to connect to database"
+    else:
+      urlparse.uses_netloc.append("postgres")
+      url = urlparse.urlparse(os.environ["DATABASE_URL"])
+      try:
+        conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      except:
+        return "Error: unable to connect to database"
 
   cur = conn.cursor()
 
@@ -171,6 +183,45 @@ def method():
 @app.route('/plots')
 def plots():
   return render_template('plots.html')
+
+@app.route('/alternatives')
+def alternatives():
+
+  refnames=['Yonkers','Greenburg','White Plains','New Rochelle','Eastchester','Bronxville','Edgemont','Scarsdale']
+  prices_actual=[407.975,410.360,501.440,564.475,609.400,678.300,953.500,1452.200]
+  good_features=[0,0,0,0,1,1,1,1]
+  
+  minhouseprice = 407.925 
+  cost_elemschool = 5.845
+  cost_highschool = 22.477
+  cost_perchild = 8*cost_elemschool + 4*cost_highschool
+  maxchild = 5
+  prices_alternate1 = [ minhouseprice+cost_perchild*i for i in range(1,maxchild+1)]
+
+  nLocales = len(refnames)
+  
+  TOOLS = 'reset'
+
+  sorted_label_prices = sorted(zip(refnames,prices_actual),key=lambda x:x[1])
+  t=zip(*sorted_label_prices)
+  plot = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
+  source1 = ColumnDataSource(data=dict(label=t[0],x=range(nLocales),ay=t[1]))
+
+  colors=['#7b3294','#c2a5cf','#e66101','#a6dba0','#008837']
+  for i in range(maxchild):
+    plot.line([0,nLocales],[prices_alternate1[i],prices_alternate1[i]],color='blue',line_dash=[6,6],line_width=2)
+    mtext(plot, 0,(prices_alternate1[i]+1), "No. of children = %d" % (i+1))
+
+  plot.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1)
+  plot.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1)
+
+#  hover = plot.select(dict(type=HoverTool))
+#  hover.tooltips = OrderedDict([("Locale ", "@label"),("Price ", "@ay")])
+
+  script, div = components(plot)
+  
+  return render_template('alternatives.html', script=script, div=div)
+
 
 #===================================================
  
