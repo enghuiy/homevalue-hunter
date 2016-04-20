@@ -182,9 +182,12 @@ def method():
 def plots():
   return render_template('plots.html')
 
+@app.route('/ahead')
+def ahead():
+  return render_template('ahead.html')
+
 @app.route('/alternatives')
 def alternatives():
-
   refnames=['Yonkers','Greenburg','White Plains','New Rochelle','Eastchester','Bronxville','Edgemont','Scarsdale']
   prices_actual=[407.975,410.360,501.440,564.475,609.400,678.300,953.500,1452.200]
   good_features=[0,0,0,0,1,1,1,1]
