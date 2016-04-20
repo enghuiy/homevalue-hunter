@@ -202,6 +202,16 @@ def alternatives():
 
   sorted_label_prices = sorted(zip(refnames,prices_actual),key=lambda x:x[1])
   t=zip(*sorted_label_prices)
+
+  plot = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='No. of children',tools=TOOLS)
+  plot.circle(range(1,maxchild+1),prices_alternate1,color='blue',size=15, alpha=1)
+  color='blue',line_dash=[10,10],line_width=1)
+  plot.line([0,maxchild],[t[1][4] t[1][4]], color='blue',line_width=3)
+  mtext(plot, 0,(t[1][4]+1), "cheapest 'good school' locale")
+
+  plot.line([0,maxchild],[t[1][0] t[1][0]], color='orange',line_width=3)
+  mtext(plot, 0,(t[1][0]+1), "cheapest locale")
+
   plot1 = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
   source1 = ColumnDataSource(data=dict(label=t[0],x=range(nLocales),ay=t[1]))
 
@@ -224,9 +234,10 @@ def alternatives():
   plot2.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1)
   plot2.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1)
 
-  script, (div1, div2) = components((plot1, plot2))
+  #script, (div1, div2) = components((plot1, plot2))
+  script, div = components(plot)
 
-  return render_template('alternatives.html', script=script, div1=div1,div2=div2)
+  return render_template('alternatives.html', script=script, div=div)
 
 
 #===================================================
