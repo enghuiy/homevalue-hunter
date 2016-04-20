@@ -16,6 +16,7 @@ from bokeh.plotting import *
 from bokeh.embed import components
 from bokeh.models import HoverTool,sources
 from collections import OrderedDict
+from bokeh.charts import color, marker, Bar
 
 app = Flask(__name__)
 
@@ -178,14 +179,40 @@ def plots():
 @app.route('/alternatives')
 def alternatives():
 
-  minhouseprice = 352000 
-  cost_elemschool = 5845
-  cost_highschool = 22477
+  refnames=['Yonkers','Greenburg','White Plains','New Rochelle','Eastchester','Bronxville','Edgemont','Scarsdale']
+  prices_actual=[407.975,410.360,501.440,564.475,609.400,678.300,953.500,1452.200]
+  good_features=[0,0,0,0,1,1,1,1]
+  
+  minhouseprice = 407.925 
+  cost_elemschool = 5.845
+  cost_highschool = 22.477
   cost_perchild = 8*cost_elemschool + 4*cost_highschool
   maxchild = 5
-  #alt_cost = [ minhouseprice+ i*cost_perchild for i in range(maxchild)]
+  prices_alternate1 = [ minhouseprice+cost_perchild*i for i in range(1,maxchild+1)]
+
+  nLocales = len(refnames)
   
-  return render_template('alternatives.html')
+  TOOLS = 'reset'
+
+  sorted_label_prices = sorted(zip(refnames,prices_actual),key=lambda x:x[1])
+  t=zip(*sorted_label_prices)
+  plot = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
+  source1 = ColumnDataSource(data=dict(label=t[0],x=range(nLocales),ay=t[1]))
+
+  colors=['#7b3294','#c2a5cf','#e66101','#a6dba0','#008837']
+  for i in range(maxchild):
+    plot.line([0,nLocales],[prices_alternate1[i],prices_alternate1[i]],color='blue',line_dash=[6,6],line_width=2)
+    mtext(plot, 0,(prices_alternate1[i]+1), "No. of children = %d" % (i+1))
+
+  plot.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1)
+  plot.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1)
+
+#  hover = plot.select(dict(type=HoverTool))
+#  hover.tooltips = OrderedDict([("Locale ", "@label"),("Price ", "@ay")])
+
+  script, div = components(plot)
+  
+  return render_template('alternatives.html', script=script, div=div)
 
 #===================================================
  
@@ -231,7 +258,36 @@ def linearRegression(features,prices_actual):
 # PLOTTING WITH BOKEH
 def mtext(p, x, y, text):
     p.text(x, y, text=[text],
-           text_color="#525252", text_font_style='bold',text_align="left", text_font_size="14pt")
+           text_color="#525252",text_align="left", text_font_size="11pt")
+
+def plotAlternatives(prices_actual,homevalue,y_predicted,refnames,coefficient,intercept,r2):
+  TOOLS = 'box_zoom,box_select,resize,reset,hover'
+  
+  plot = figure(width=600, height=400,y_axis_label='Prices', x_axis_label='Locales',tools=TOOLS)
+  plot.line(feature1D,y_predicted,color='black',line_width=3)
+
+  source = ColumnDataSource(
+    data=dict(
+      x=feature1D,
+      y=homevalue,
+      label=refnames
+      )
+    )
+
+  plot.circle('x', 'y', color='blue',size=7, alpha=0.7, source=source)
+
+  hover =plot.select(dict(type=HoverTool))
+  hover.tooltips = OrderedDict([
+    ("Locale", "@label"),
+    ("(feature,price)", "(@x, @y)"),
+    ])
+
+  mtext(plot, min(feature1D) + 1,max(homevalue)-100000, "y = %6.2f x + (%6.2f)" %(coefficient,intercept))
+  mtext(plot, min(feature1D) + 1,max(homevalue)-250000, "R2 = %5.3f" %(r2))
+
+  script, div = components(plot)
+
+  return (script, div)
 
 def plotLR(feature1D,homevalue,y_predicted,refnames,coefficient,intercept,r2):
   TOOLS = 'box_zoom,box_select,resize,reset,hover'

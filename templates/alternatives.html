@@ -6,41 +6,41 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 <link rel="stylesheet" type="text/css" href="../static/mystyle.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.css" type="text/css">
+<script type="text/javascript" src="//cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.js"></script>
+{{ script | safe }}
 <style>
-table { 
-border-spacing: 0;
-border-collapse: collapse;
-}
-th { background-color: #1b7837;    color: white;}
-th, td { font-size: 16px; padding: 3px;    text-align: left;}
-
+h4 { margin: 20px 5px 20px 5px;}
 </style>
 </head>
 <body>
 <div class=page>
-  <h1>What are my alternatives?</h1>
- <ul>
+  
+  <h1>Alternatives Exploration</h1>
+  <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/method">Methodology</a></li>
     <li><a href="/plots">Plots</a></li>
- </ul>
+  </ul>
 
-  <h2>for 10583:</h2>
-  <br><p>
-  Lowest median home price in selected region: <b>$352,000 (Mount
-  Vernon)</b><br>
- <br>
-  In lieu of <font color="green"><b>school performance:</b></font><br>
-  - Average cost of private elementary school: $5,845 / year<br>
-  - Average cost of private high school: $22,477 / year<br>
-  => Average cost per child = 8 years x $5,845 + 4 years x $22,477 = <b>$136,668</b><br>
- <br>
-  Final alternative cost = $352,000 + $136,668 = <b>$488,668</b> (assuming 1 child)<br>
- </p>
- </div>
- 
+  <h4>"Is it cheaper to choose the cheapest locale and pay for
+  private school tuition instead?"</h4>
+  <table style="width:100%">
+    <tr>
+      <td width=630>
+      <div class=page>	
+      
+	{{ div | safe }}
+      </div>
+      </div>
+      </td>
+      <td valign="center">
+	<p>Input data:<br>
+	Average cost of tuition per child (K-12) = $136K
+	</p>
+      </td>
   
-  </body>
-  </html>
+</body>
+</html>
+
   

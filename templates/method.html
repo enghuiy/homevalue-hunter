@@ -25,62 +25,50 @@ th, td { font-size: 16px; padding: 3px;    text-align: left;}
     <li><a href="/method">Methodology</a></li>
     <li><a href="/plots">Plots</a></li>
  </ul>
-
-  <h2>Data Sources</h2>
- <p> Data were collected from various sources (see table). Assigning pricing and feature data to the
+<h2>Data Sources</h2>
+ <p> Data were collected from various sources (see below). Assigning pricing and feature data to the
  correct locale posed a challenge, due to inconsistent naming
  conventions across datasets. This was solved using geocoding and a modified text
  comparison technique inspired by species-to-species ortholog matching
- in biology (see <a href="http://inparanoid.sbc.su.se">InParanoid</a>) to correctly assign
+ in biology (<a href="http://inparanoid.sbc.su.se">InParanoid</a>) to correctly assign
  data to the right locale.</p>
-  <table border=1 style="width:80%">
-    <tr>
-      <th>	Data      </th>
-      <th>	Source      </th>
-      <th>	Collection Method      </th>
+ <br>
+ <table style="width:80%" cellpadding = "20">
+  <tr>
+    <td halign="center" valign="center">
+      <img src="../static/census.png" height="100px">
+    </td>
+    <td halign="center" valign="center">
+      <img src="../static/fbi.png" height="100px">
+    </td>
+    <td halign="center" valign="center">
+      <img src="../static/nygov-logo.png" height="100px">
+    </td>
+    <td halign="center" valign="center">
+      <img src="../static/nysed.png" height="100px">
+    </td>
+  </tr>
+  </table>
+  <table style="width:80%" cellpadding = "20">
+
+  <tr>
+    <td halign="center" valign="center">
+      <img src="../static/zillow.png"  height="50px">
+    </td>
+    <td halign="center" valign="center">
+      <img src="../static/walk-score.png"  height="50px">
+    </td>
+    <td halign="center" valign="center">
+      <img src="../static/sperling.png" height="75px">
+    </td>
     </tr>
-    <tr>
-      <td>	Median Home Price      </td>
-      <td>	Zillow      </td>
-      <td>	API      </td>
-    </tr>
-    <tr>
-      <td>	Locale boundaries (School Districts)      </td>
-      <td>	Census.gov      </td>
-      <td>	downloaded (.shx)      </td>
-    </tr>
-    <tr>
-      <td>	School Performance (3-8 grade, English & Math)      </td>
-      <td>	NYS Dept. Education      </td>
-      <td>	MS Database      </td>
-    </tr>
-    <tr>
-      <td>	Crime rate      </td>
-      <td>	NYS Div. Criminal Justice Service      </td>
-      <td>	downloaded (excel)      </td>
-    </tr>
-    <tr>
-      <td>	Return on Investment (ROI)      </td>
-      <td>	Zillow      </td>
-      <td>	downloaded (csv)      </td>
-    </tr>
-    <tr>
-      <td>	Commute time      </td>
-      <td>	www.bestplaces.net      </td>
-      <td>	Web scraping      </td>
-    </tr>
-    <tr>
-      <td>	Walkability      </td>
-      <td>	walkscore.com      </td>
-      <td>	API      </td>
-    </tr>
- </table>
+</table>
  <br>
   <h2>Analysis</h2>
- <p>Pricing and feature data are stored in a Postgresql database on
+ <p>Pricing and feature data are stored in a <b>Postgresql database</b> on
  the application server. Locales within a user-defined search area are
- retreived and a linear regression performed real-time on the actual pricing
- and selected features (X) to obtain expected pricing. The percentage
+ retreived and a <b>linear regression</b> (scikit-learn) performed real-time on the actual pricing
+ and selected features to obtain expected pricing. The percentage
  differences between actual and expected pricing are then reported to
  identify over- and under-valued locales.</p>
  
