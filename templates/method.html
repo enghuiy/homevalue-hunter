@@ -29,11 +29,11 @@ th, td { font-size: 16px; padding: 3px;    text-align: left;}
  </ul>
  <br>
 <h2>Data Sources</h2>
- <p> 2.9 Gb of data were collected from various sources. Given the
+ <p><b>2.9 Gb</b> of data were collected from various sources. To address
  inconsistent naming conventions across datasets, geocoding and a
  technique inspired by species-to-species ortholog matching in biology
- (<a href="http://inparanoid.sbc.su.se">InParanoid</a>) were used to correctly assign to correctly assign pricing and feature data to the correct locale.</p>
-<table style="width:80%" cellpadding = "20">
+ (<a href="http://inparanoid.sbc.su.se">InParanoid</a>) were used to correctly assign pricing and feature data to the correct locale.</p>
+<table style="width:100%" cellpadding = "10">
   <tr>
     <td halign="center" valign="center">
       <img src="../static/census.png" height="75px">
@@ -60,40 +60,42 @@ th, td { font-size: 16px; padding: 3px;    text-align: left;}
 </table>
  <br><br>
 <h2>Tech Stack</h2>
-<table style="width:80%" cellpadding = "20">  
+<table style="width:100%" cellpadding = "10">  
   <tr>
     <td halign="center" valign="center">
-      <img src="../static/heroku.jpg"  height="50px">
+      <img src="../static/heroku.jpg"  height="45px">
     </td>
     <td halign="center" valign="center">
-      <img src="../static/postgresql.png"  height="75px">
+      <img src="../static/postgresql.png"  height="60px">
     </td>
-   <td halign="center" valign="center">
+    <td halign="center" valign="center">
       <img src="../static/sklearn.png"  height="75px">
     </td>
-   <td halign="center" valign="center">
+    <td halign="center" valign="center">
       <img src="../static/pandas.png"  width="100px">
     </td>
     <td halign="center" valign="center">
       <img src="../static/python.jpg" height="50px">
     </td>
-   <td halign="center" valign="center">
+    <td halign="center" valign="center">
       <img src="../static/flask.png"  height="50px">
     </td>
     <td halign="center" valign="center">
       <img src="../static/javascript.jpg" height="60px">
     </td>
     <td halign="center" valign="center">
-      <img src="../static/leafletjs.jpg" height="40px">
-    </td>    </tr>
+      <img src="../static/mapbox.png" height="60px">
+    </td> 
+    <td halign="center" valign="center">
+      <img src="../static/leafletjs.jpg" height="30px">
+    </td>
+  </tr>
 </table>						
 <br>			
-
   <h2>Analysis</h2>
  <p>Pricing and selected features within the user-defined search area are
  retreived from the <b>Postgresql database</b> and <b>real-time linear
- regressions</b> (scikit-learn) performed to obtain expected
- pricing. The percentage differences between actual and expected pricing are then reported to identify over- and under-valued locales.</p>
+ regressions</b> performed to obtain expected pricing. The percentage differences between actual and expected pricing are then reported to identify over- and under-valued locales.</p>
  
  </div>  
   
