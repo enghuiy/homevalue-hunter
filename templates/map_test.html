@@ -12,7 +12,7 @@
 
 <style>   
 
-#map {width: 800px;height: 400px;}
+#map { height:75vh;}
 .info {
     width: 250px;
     height: 128px;
@@ -45,12 +45,7 @@
   <li><a href="/ahead">Ahead</a></li>
 
 </ul>
-
-<table style="width:100%">
-  <tr>
-    <td width=630>
-      
-    <div id='map'></div>
+   <div id='map'></div>
     
     <script type="text/javascript">
     function getColor(d) {
@@ -149,13 +144,5 @@ legend.addTo(map);
 info.addTo(map);
 
 </script>
-</td>
-<td valign="top">
-<br>  
-<a href="/index">back to search</a></p>
-
-  {{fitstats_string|string|safe}}
-  {{batna_string|string|safe}}
-</td>
 </body>
 </html>
