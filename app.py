@@ -196,6 +196,9 @@ def alternatives():
   maxchild = 5
   prices_alternate1 = [ minhouseprice+cost_perchild*i for i in range(1,maxchild+1)]
 
+  prices_alternateStep = sorted([minhouseprice,minhouseprice]+prices_alternate1+prices_alternate1[:-1])
+  childlistStep=[0,1,1,2,2,3,3,4,4,5]
+  
   nLocales = len(refnames)
   
   TOOLS = ''
@@ -204,13 +207,15 @@ def alternatives():
   t=zip(*sorted_label_prices)
 
   plot = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='No. of children',tools=TOOLS)
-  plot.circle(range(1,maxchild+1),prices_alternate1,color='blue',size=15, alpha=1)
-  color='blue',line_dash=[10,10],line_width=1)
-  plot.line([0,maxchild],[t[1][4] t[1][4]], color='blue',line_width=3)
-  mtext(plot, 0,(t[1][4]+1), "cheapest 'good school' locale")
+  plot.line(childlistStep,prices_alternateStep,color='black',line_width=3)
 
-  plot.line([0,maxchild],[t[1][0] t[1][0]], color='orange',line_width=3)
-  mtext(plot, 0,(t[1][0]+1), "cheapest locale")
+  plot.circle(0,t[1][0], color='orange',size=15, alpha=1)
+  mtext(plot,0,(t[1][0]+60), "cheapest")
+  mtext(plot,0,(t[1][0]+20), "locale")
+
+  plot.line([0,maxchild],[t[1][4],t[1][4]], color='blue',line_width=3)
+  mtext(plot, 2.5,(t[1][4]+1), "cheapest 'good school' locale")
+
 
   plot1 = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
   source1 = ColumnDataSource(data=dict(label=t[0],x=range(nLocales),ay=t[1]))
