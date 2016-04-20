@@ -205,16 +205,21 @@ def alternatives():
   plot1 = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
   source1 = ColumnDataSource(data=dict(label=t[0],x=range(nLocales),ay=t[1]))
 
-  plot1.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1)
-  plot1.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1)
-
+  plot1.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1, legend="Locales with good schools")
+  plot1.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1,legend="Locales with bad schools")
+  plot1.legend.orientation = "top_left"
+  
 #  hover = plot.select(dict(type=HoverTool))
 #  hover.tooltips = OrderedDict([("Locale ", "@label"),("Price ", "@ay")])
 
   plot2 = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
   for i in range(maxchild):
-    plot2.line([0,nLocales],[prices_alternate1[i],prices_alternate1[i]],color='blue',line_dash=[6,6],line_width=2)
-    mtext(plot2, 0,(prices_alternate1[i]+1), "No. of children = %d" % (i+1))
+    plot2.line([0,nLocales],[prices_alternate1[i],prices_alternate1[i]],color='blue',line_dash=[10,10],line_width=1)
+    if i==0:
+      mtext(plot2, 0,(prices_alternate1[i]+1), "house + %d tuition" % (i+1))
+    else:
+      mtext(plot2, 0,(prices_alternate1[i]+1), "house + %d tuitions" % (i+1))
+
 
   plot2.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1)
   plot2.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1)
