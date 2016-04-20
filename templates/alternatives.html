@@ -10,13 +10,13 @@
 <script type="text/javascript" src="//cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.js"></script>
 {{ script | safe }}
 <style>
-h4 { margin: 20px 5px 20px 5px;}
+h4 { font-size:24px; font-style:bold;font-family:Times, serif; margin: 20px 5px 20px 5px;}
 </style>
 </head>
 <body>
 <div class=page>
   
-  <h1>Alternatives Exploration</h1>
+  <h1>Exploring alternatives</h1>
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/method">Methodology</a></li>
@@ -28,18 +28,32 @@ h4 { margin: 20px 5px 20px 5px;}
   <table style="width:100%">
     <tr>
       <td width=630>
-      <div class=page>	
-      
-	{{ div | safe }}
-      </div>
+      <div class=page>	    
+	{{ div1 | safe }}
       </div>
       </td>
       <td valign="center">
-	<p>Input data:<br>
-	Average cost of tuition per child (K-12) = $136K
+	<p>
+	Average cost of tuition per child (K-12) = $142K
 	</p>
       </td>
-  
+      </tr>
+      <td>
+      <div class=page>	    
+	{{ div2 | safe }}
+      </div>
+
+      </div>
+      </td>
+      <td valign="center">
+	<p>
+	<b>Recommendation:</b><br>
+	0-1 child: cheapest location + private school option<br>
+	> 2 children: public school option<br>
+	</p>
+      </td>
+  </tr>
+  </table>
 </body>
 </html>
 
