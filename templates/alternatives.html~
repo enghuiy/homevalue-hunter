@@ -21,7 +21,7 @@ h4 { font-size:24px; font-style:bold;font-family:Times, serif; margin: 20px 5px 
     <li><a href="/">Home</a></li>
     <li><a href="/method">Methodology</a></li>
     <li><a href="/plots">Plots</a></li>
-
+    <li><a href="/ahead">Ahead</a></li>
       
   </ul>
 
