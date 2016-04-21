@@ -38,52 +38,47 @@ h2 {text-align: center;}
     <li><a href="/plots">Plots</a></li>
 
  </ul>
-  <table style="width:100%">
+<table style="width:100%">
     <tr>
       <td>
 	<img src="../static/house_w_flowers.jpg" height="450px">
       </td>
       <td halign="left" valign="center">
-	<h4>Define your search area:</h4>
+	<h4 font color="green">Define your search area:</font></h4>
 	
 	<form id='input' method='post' action='index'>
-	  <p>
-	    Center of your search (zipcode): <input type='text' name='center' value='10583'/><br>
-	    
-	    Search radius:
-	    <select name="radius"e>
-	      <OPTION SELECTED> 10 miles
-	      <OPTION> 5 miles
-	      <OPTION> 10 miles
-	      <OPTION> 20 miles
-	      <OPTION> 50 miles
-	    </SELECT> <br><br>
-	  </p>
-	  <h4>Select your criteria:</h4>
-	  <p>
-	    <input type="checkbox" name="features" value="school_performance" checked > School performance
-	    <br><input type="checkbox" name="features" value="crime_rate" > Crime rate
-	    <br><input type="checkbox" name="features" value="roi" > Return on Investment (ROI)
-	    <br><font color="grey"><input type="checkbox" name="features" value="commute_time" > Commuting time</font>
-	    <br><font color="grey"><input type="checkbox" name="features" value="walkability" > Walkability</font>
-	    <br>
-	    
-	    <br><input type="submit" value="Submit">
-	    
-	  </p>
+	<p>
+	Center of your search (zipcode): <input type='text' name='center' value='10583'/><br>
 
-	  <h4><font color="red"> {{msg}}</font></h4>
+	Search radius:
+	<select name="radius"e>
+	  <OPTION SELECTED> 10 miles
+	  <OPTION> 5 miles
+	  <OPTION> 10 miles
+	  <OPTION> 20 miles
+	  <OPTION> 50 miles
+	</SELECT> <br><br>
+	</p>
+	<h4  font color="green">Select your criteria:</font></h4>
+	<p>
+	<input type="checkbox" name="features" value="school_performance" checked > School performance
+	<br><input type="checkbox" name="features" value="crime_rate" > Crime rate
+	<br><input type="checkbox" name="features" value="roi" > Return on Investment (ROI)
+	<br><font color="grey"><input type="checkbox" name="features" value="commute_time" > Commuting time</font>
+	<br><font color="grey"><input type="checkbox" name="features" value="walkability" > Walkability</font>
+	<br>
+
+	<br><input type="submit" value="Submit">
+
+	</p>
 	</form>
-	
-	
       </td>
       
       <td>
       </td>
     </tr>
-  </table>
-</div>  
-
-</body>
-</html>
+  </div>  
+  
+  </body>
+  </html>
   

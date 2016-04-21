@@ -62,24 +62,16 @@ def index():
     cur = conn.cursor()
     # 1) get long/lat base on zipcode
     cur.execute("""select lat,long from zipcode2longlat where zipcode=%d;""" % app.vars['qcenter'])
-    data = cur.fetchone()
-    if  data == None:
-      return render_template('index.html',msg='No such zipcode found')
-    app.zlat,app.zlong=data
-
+    app.zlat,app.zlong=cur.fetchone()
 
     # 2) get refshp_indices with (long/lat - centroid).dist < radius
     cur.execute("""SELECT refshpindex,centroid_lat,centroid_long FROM refshape;""")
     id_centroids=cur.fetchall()
-      
     app.selectedids=[]
     for refshpindex,clat,clong in id_centroids: 
       d=distance_on_unit_sphere(clat, clong, app.zlat, app.zlong)
       if d <=app.vars['qradius']:
         app.selectedids.append(refshpindex)
-
-    if not app.selectedids:
-      return render_template('index.html',msg='No such locales found')
 
     # 3) select price,features from lines matching these refshp_indices
 #    cur.execute("""SELECT refshape.name,zprice,sch_perform FROM price2features JOIN refshape ON price2features.refshpindex=refshape.refshpindex WHERE sch_perform > 0;""")
@@ -88,8 +80,6 @@ def index():
     cur.execute(queryString)
     
     data=zip(*cur.fetchall())
-    if not data:
-      return render_template('index.html',msg='No qualifying locales found in database.')
     app.validids = list(data[0])
     app.refnames = list(data[1])
     app.prices_actual = data[2]
