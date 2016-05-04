@@ -23,7 +23,7 @@ from flask import Flask, render_template, request, redirect
 #@app.route('/index', methods=['POST', 'GET'])
 @app.route('/index')
 def index():
-  return render_template('index.html',msg='No such locales found')
+  return render_template('test.html')
 
 
 # RUN
