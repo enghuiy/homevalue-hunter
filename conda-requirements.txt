@@ -10,4 +10,3 @@ psycopg2
 ujson
 matplotlib
 mpld3
-wordcloud
