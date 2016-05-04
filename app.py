@@ -1,24 +1,24 @@
 from __future__ import division
 from flask import Flask, render_template, request, redirect
 
-#import os
-#import psycopg2
-#import urlparse
+import os
+import psycopg2
+import urlparse
 
-#import math
-#import numpy as np
-#from sklearn.linear_model import LinearRegression
-#from sklearn.preprocessing import Imputer
+import math
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import Imputer
 
-#from bokeh.plotting import *
-#from bokeh.embed import components
-#from bokeh.models import HoverTool,sources
-#from collections import OrderedDict
+from bokeh.plotting import *
+from bokeh.embed import components
+from bokeh.models import HoverTool,sources
+from collections import OrderedDict
 
-#from wordcloud import WordCloud
-#import matplotlib.pyplot as plt
-#import mpld3
-#import json
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import mpld3
+import json
 
 app = Flask(__name__)
 
