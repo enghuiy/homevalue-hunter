@@ -20,6 +20,12 @@ from flask import Flask, render_template, request, redirect
 #import mpld3
 #import json
 
+app = Flask(__name__)
+
+@app.route('/')
+def main():
+  return redirect('/index')
+
 #@app.route('/index', methods=['POST', 'GET'])
 @app.route('/index')
 def index():
