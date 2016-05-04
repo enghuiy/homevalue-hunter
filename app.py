@@ -15,9 +15,9 @@ from bokeh.embed import components
 from bokeh.models import HoverTool,sources
 from collections import OrderedDict
 
-from wordcloud import WordCloud
-import matplotlib.pyplot as plt
-import mpld3
+#from wordcloud import WordCloud
+#import matplotlib.pyplot as plt
+#import mpld3
 import ujson
 
 app = Flask(__name__)
