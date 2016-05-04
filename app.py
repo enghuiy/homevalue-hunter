@@ -586,5 +586,5 @@ def generateHTML_fitstats(coeffs,intercept,r2):
 
 # RUN
 if __name__ == '__main__':
-#  app.run(port=33507)
-  app.run(debug=True,port=5001)
+  app.run(port=33507)
+#  app.run(debug=True,port=5001)
