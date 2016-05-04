@@ -19,6 +19,12 @@ from collections import OrderedDict
 #import matplotlib.pyplot as plt
 #import mpld3
 #import json
+
+@app.route('/index', methods=['POST', 'GET'])
+def index():
+  return render_template('index.html',msg='No such locales found')
+
+
 # RUN
 if __name__ == '__main__':
   app.run(port=33507)
