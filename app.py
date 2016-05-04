@@ -15,6 +15,11 @@ from bokeh.embed import components
 from bokeh.models import HoverTool,sources
 from collections import OrderedDict
 
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import mpld3
+import json
+
 app = Flask(__name__)
 
 # global variables to be used on different pages
@@ -29,7 +34,7 @@ app.locscores=[]
 app.zlat=0
 app.zlong=0
 app.feature_string=[]
-
+app.locale_names_json=''
 @app.route('/')
 def main():
   return redirect('/index')
@@ -39,12 +44,6 @@ def index():
 
   if request.method == 'POST':
 
-    # get user-defined search area (currently not used)
-    app.vars['qcenter'] = int(request.form['center'])
-    app.vars['qradius']= float(request.form['radius'].replace(' miles',''))
-    app.vars['qfeatures'] = request.form.getlist('features')
-    app.feature_string =  getFeatureString(app.vars['qfeatures'])
-    
     # get data from postgresql
     try:
       urlparse.uses_netloc.append("postgres")
@@ -58,16 +57,33 @@ def index():
         conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
       except:
         return "Error: unable to connect to database"
-
+      
     cur = conn.cursor()
-    # 1) get long/lat base on zipcode
-    cur.execute("""select lat,long from zipcode2longlat where zipcode=%d;""" % app.vars['qcenter'])
-    data = cur.fetchone()
-    if  data == None:
-      return render_template('index.html',msg='No such zipcode found')
-    app.zlat,app.zlong=data
 
+    # get user-defined search area
+    center_string=request.form['center']
+    try:
+      # query is zipcode; get long/lat base from zipcode
+      center_zipcode = int(center_string)
+      cur.execute("""select lat,long from zipcode2longlat where zipcode=%d;""" % center_zipcode)
+      data = cur.fetchone()
+      if  data == None:
+        return render_template('index.html',msg='zipcode %d not found' % center_zipcode)
+      app.zlat,app.zlong=data
 
+    except:
+      # query is city name; get long/lat base from locale_name
+      center_localename = center_string # query is city
+      cur.execute("""SELECT centroid_lat,centroid_long FROM refshape WHERE locale_name='%s';""" % center_localename)
+      data = cur.fetchone()
+      if  data == None:
+        return render_template('index.html',msg='city name %s not found' % center_localename)
+      app.zlat,app.zlong=data
+
+    app.vars['qradius']= float(request.form['radius'].replace(' miles',''))
+    app.vars['qfeatures'] = request.form.getlist('features')
+    app.feature_string =  getFeatureString(app.vars['qfeatures'])
+    
     # 2) get refshp_indices with (long/lat - centroid).dist < radius
     cur.execute("""SELECT refshpindex,centroid_lat,centroid_long FROM refshape;""")
     id_centroids=cur.fetchall()
@@ -138,14 +154,36 @@ def index():
     geojsonFeatures_new='{"type": "FeatureCollection", "features": ['+','.join(temp)+']}'
     return render_template('map_test.html', featureString=app.feature_string,gjson=geojsonFeatures_new,center_lat=app.zlat,center_long=app.zlong)
 
-  return render_template('index.html')
+  # GET METHOD
+      # get data from postgresql
+  try:
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    try:
+      conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+    except:
+      return "Error: unable to connect to database"
+  except:
+    try:
+      conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+    except:
+      return "Error: unable to connect to database"
+  cur = conn.cursor()
+    #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  #get user-defined search area
+  cur.execute("""select locale_name from refshape;""") # add state later
+  data = cur.fetchall()
+  app.locale_names_json=json.dumps({'locale_names':zip(*data)[0]})
+  return render_template('index.html', json=app.locale_names_json )
+
+
 
 @app.route('/map')
 def map_test():
 
   # return to index page if there are no data
   if not app.validids:
-    return render_template('index.html')
+    return redirect('/index')
 
     try:
       urlparse.uses_netloc.append("postgres")
@@ -195,6 +233,69 @@ def plots():
 @app.route('/ahead')
 def ahead():
   return render_template('ahead.html')
+
+@app.route('/info/<int:refid>')
+def info(refid):
+  
+    # get locale data from postgresql
+    try:
+      urlparse.uses_netloc.append("postgres")
+      url = urlparse.urlparse(os.environ["DATABASE_URL"])
+      try:
+        conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      except:
+        return "Error: unable to connect to database"
+    except:
+      try:
+        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+      except:
+        return "Error: unable to connect to database"
+    cur = conn.cursor()
+
+    # get name
+    queryString='SELECT name from refshape WHERE refshpindex= %d;' % refid
+    cur.execute(queryString)
+    data = cur.fetchone()
+    if  data == None:
+      return render_template('locale_info.html',msg='No locale info found')
+    localename=data[0]
+
+    # get price+features
+    featurestring='sch_perform,crimerate_total,roi,traveltime,walkability,text'
+    queryString='SELECT zprice,'+ featurestring +' from price2features WHERE refshpindex= %d;' % refid
+    cur.execute(queryString)    
+    data = cur.fetchone()
+    if  data == None:
+      return render_template('locale_info.html',msg='No locale info found')
+    medhomeprice="%d" % data[0] if data[0] else 'no data'
+    school="%.1d" % data[1] if data[1] else 'no data'
+    crime="%.2f" % data[2] if data[2] else 'no data'
+    roi="%.2f" % data[3] if data[3] else 'no data'
+    traveltime="%.2f" % data[4] if data[4] else 'no data'
+    walkability="%d" % data[5] if data[5] else 'no data'
+    
+    keytext=data[6] if data[6] else ''
+
+    # wordcloud
+    if keytext:
+      fig, ax = plt.subplots()
+      wordcloud = WordCloud(max_font_size=40, relative_scaling=.5).generate(keytext) #numpy array
+      wordcloud=np.flipud(wordcloud)
+      ax.imshow(wordcloud)
+      ax.set_title('What residents say about the locale')
+      fig.tight_layout()
+      #ax.scatter([1,2],[1,2])
+
+      mpld3.plugins.clear(fig)  # clear all plugins from the figure
+      cloudjson=mpld3.fig_to_dict(fig)
+      cloudjson['width']=533
+      cloudjson['height']=400
+      cloudjson=json.dumps(cloudjson)
+    else:
+      cloudjson=''
+      
+    return render_template('locale_info.html',msg='',name=localename,medhomeprice=medhomeprice,school=school,crime=crime,roi=roi,traveltime=traveltime,walkability=walkability,cloudjson=cloudjson)
+    #return render_template('test.html',json=cloud_json)
 
 @app.route('/alternatives')
 def alternatives():
@@ -440,7 +541,7 @@ def generateQueryString_priceFeatures(featurelist,refshpindexlist):
         elif f=='crime_rate':
             featurestring+='crimerate_total'
         elif f=='commute_time':
-            featurestring+='commute_time'
+            featurestring+='traveltime'
         elif f=='walkability':
             featurestring+='walkability'
         elif f=='roi':
@@ -450,7 +551,7 @@ def generateQueryString_priceFeatures(featurelist,refshpindexlist):
         if i<len(featurelist)-1:
             featurestring+=','
         
-    criteriastring='refshape.refshpindex in ('+ ','.join([str(i) for i in refshpindexlist])+')'
+    criteriastring='zprice is not NULL and refshape.refshpindex in ('+ ','.join([str(i) for i in refshpindexlist])+')'
 
     outstring='SELECT refshape.refshpindex,refshape.name,zprice,'+ featurestring + ' from price2features JOIN refshape ON price2features.refshpindex=refshape.refshpindex WHERE '+ criteriastring + ';'
         

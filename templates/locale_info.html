@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Locale Info</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script type="text/javascript" src="//mpld3.github.io/js/d3.v3.min.js"></script>
+<script type="text/javascript" src="//mpld3.github.io/js/mpld3.v0.2.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/mystyle.css">
+
+
+<style>
+g.mpld3-xaxis, g.mpld3-yaxis {display: none;}
+table { 
+border-spacing: 0;
+border-collapse: collapse;
+}
+th { background-color: #1b7837;    color: white;}
+th, td { font-size: 16px; padding: 3px;    text-align: left;}
+tr:nth-child(even) {background-color: #a1d99b}
+
+</style>
+</head>
+<body>
+<div class=page>
+   <h1>Locale Information</h1>
+ <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/method">Methodology</a></li>
+    <li><a href="/plots">Plots</a></li>
+
+ </ul>
+ <br>
+ <h2>{{name}}, NY</h2>
+ <h4><font color="red"> {{msg}}</font></h4>
+ 
+ <table style="width:100%" cellpadding = "10">
+   <tr>
+   </tr>  <tr>
+     <td>Median Home Price ($):</td>
+     <td>{{medhomeprice}}</script></td>
+   </tr>
+   <tr>
+     <td>School Performance (avg. % in top state quantile; 3,8th grade math) :</td>
+     <td>{{school}}</td>
+   </tr>
+   <tr>
+    <td>Total Crime Rate (per capita) :</td>
+    <td>{{crime}}</td>
+  </tr>
+  <tr>
+    <td>Return on Investment (%):</td>
+    <td>{{roi}}</td>
+  </tr>
+  <tr>
+    <td>Average commuting time (min):</td>
+    <td>{{traveltime}}</td>
+  </tr>
+  <tr>
+    <td>Walkability (<50:car-dependent,50-69: somewhat walkable; >70 walkable):</td>
+    <td>{{walkability}}</td>
+  </tr>
+</table>
+<table style="width:100%">
+  <tr>
+    <td halign="center" valign="center">
+  <div id="mplplot"></div>
+   <script type="text/javascript">mpld3.draw_figure("mplplot",{{cloudjson|safe|string}});</script>
+  </td>
+ </tr>
+</table>
+
+ </div>  
+  
+  </body>
+  </html>
+  

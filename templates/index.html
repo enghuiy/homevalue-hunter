@@ -20,6 +20,28 @@
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="../static/mystyle.css">
+      <script>
+$.ui.autocomplete.filter = function (array, term) {
+  var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(term), "i");
+  return $.grep(array, function (value) {
+    return matcher.test(value.label || value.value || value);
+  });
+};
+
+var json={{json|safe}}
+         $(function() {
+            var locales = [
+               "scarsdale",
+               "white-plains",
+               "yonkers",
+            ];
+            $( "#automplete-1" ).autocomplete({
+               minLength:1,   
+               delay:100,   
+               source: json['locale_names']
+            });
+         });
+      </script>
 <style>
 h1 {text-align: center;}
 h2 {text-align: center;}
@@ -38,49 +60,45 @@ h2 {text-align: center;}
     <li><a href="/plots">Plots</a></li>
 
  </ul>
-  <table style="width:100%">
-    <tr>
-      <td>
-	<img src="../static/house_w_flowers.jpg" height="450px">
-      </td>
-      <td halign="left" valign="center">
-	<h4>Define your search area:</h4>
-	
-	<form id='input' method='post' action='index'>
-	  <p>
-	    Center of your search (zipcode): <input type='text' name='center' value='10583'/><br>
-	    
-	    Search radius:
-	    <select name="radius"e>
-	      <OPTION SELECTED> 10 miles
-	      <OPTION> 5 miles
-	      <OPTION> 10 miles
-	      <OPTION> 20 miles
-	      <OPTION> 50 miles
-	    </SELECT> <br><br>
-	  </p>
-	  <h4>Select your criteria:</h4>
-	  <p>
-	    <input type="checkbox" name="features" value="school_performance" checked > School performance
-	    <br><input type="checkbox" name="features" value="crime_rate" > Crime rate
-	    <br><input type="checkbox" name="features" value="roi" > Return on Investment (ROI)
-	    <br><font color="grey"><input type="checkbox" name="features" value="commute_time" > Commuting time</font>
-	    <br><font color="grey"><input type="checkbox" name="features" value="walkability" > Walkability</font>
-	    <br>
-	    
-	    <br><input type="submit" value="Submit">
-	    
-	  </p>
-
-	  <h4><font color="red"> {{msg}}</font></h4>
-	</form>
-	
-	
-      </td>
-      
-      <td>
-      </td>
-    </tr>
+ <table style="width:100%">
+   <tr>
+     <td width="60%">
+       <img src="../static/house_w_flowers.jpg" width="100%">
+     </td>
+     <td width="40%">
+       <h4>Define your search area:</h4>
+       
+       <form id='input' method='post' action='index'>
+       <p>
+       city or zipcode: <input type='text' input id="automplete-1" name='center' value='scarsdale'><br>
+       State: <select name="state"><OPTION SELECTED>NY</SELECT> <br><br>
+       
+       Search radius:
+       <select name="radius">
+	 <OPTION SELECTED> 10 miles
+	 <OPTION> 5 miles
+	 <OPTION> 10 miles
+	 <OPTION> 20 miles
+	 <OPTION> 50 miles
+       </SELECT> <br><br>
+       </p>
+       <h4>Select your criteria:</h4>
+       <p>
+       <input type="checkbox" name="features" value="school_performance" checked > School performance
+       <br><input type="checkbox" name="features" value="crime_rate" > Crime rate
+       <br><input type="checkbox" name="features" value="roi" > Return on Investment (ROI)
+       <br><input type="checkbox" name="features" value="commute_time" > Commuting time
+       <br><input type="checkbox" name="features" value="walkability" > Walkability
+       <br>
+       
+       <br><input type="submit" value="Submit">
+       </p>
+       </form>
+       <h4><font color="red"> {{msg}}</font></h4>
+       
+       
+     </td>
+     </tr>
   </table>
 </div>  
 

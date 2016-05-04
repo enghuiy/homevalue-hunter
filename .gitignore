@@ -1,0 +1,8 @@
+app.py.bu
+app.py_*
+t
+requirements_old.txt
+*pyc
+templates/*geojson
+templates/*_js.html
+templates/*_bu*html

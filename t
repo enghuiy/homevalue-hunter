@@ -1,29 +1,179 @@
- 435000  180037 1191.8 141.62
- 390000  199848 1206.0  95.15
- 255250  371858 1329.0 -31.36
- 433000  431991 1372.0   0.23
- 364500  469749 1399.0 -22.41
- 478000  496320 1418.0  -3.69
- 640000  571836 1472.0  11.92
- 618000  601203 1493.0   2.79
- 680000  606797 1497.0  12.06
- 390000  619383 1506.0 -37.03
- 527000  634766 1517.0 -16.98
-1300000  718673 1577.0  80.89
- 690000  724267 1581.0  -4.73
- 528250  728462 1584.0 -27.48
- 422500  788596 1627.0 -46.42
- 749000  813768 1645.0  -7.96
- 831000  819362 1649.0   1.42
- 570000  830549 1657.0 -31.37
- 535000  831948 1658.0 -35.69
-1035000  889284 1699.0  16.39
- 550000  924245 1724.0 -40.49
- 991000  928441 1727.0   6.74
- 627000  952214 1744.0 -34.15
-1835000 1023535 1795.0  79.28
- 627500 1047309 1812.0 -40.08
-1800000 1059895 1821.0  69.83
-1056001 1103247 1852.0  -4.28
- 892500 1160583 1893.0 -23.10
-1497000 1219318 1935.0  22.77
+abstract-rendering==0.5.1
+alabaster==0.7.6
+anaconda-client==1.2.1
+appnope==0.1.0
+appscript==1.0.1
+argcomplete==1.0.0
+astropy==1.0.6
+Babel==2.1.1
+backports-abc==0.4
+backports.ssl-match-hostname==3.4.0.2
+beautifulsoup4==4.4.1
+bitarray==0.8.1
+blaze==0.8.3
+bokeh==0.11.1
+boto==2.39.0
+Bottleneck==1.0.0
+bz2file==0.98
+cachetools==1.1.6
+cdecimal==2.3
+cffi==0.9.2
+cld2-cffi==0.1.1
+click==6.3
+click-plugins==1.0.3
+cligj==0.4.0
+cloudpickle==0.2.1
+clyent==1.2.0
+colorama==0.3.3
+conda==4.0.5
+conda-build==1.18.2
+conda-env==2.4.5
+configobj==5.0.6
+Corpora==1.0
+cryptography==1.0.2
+cycler==0.10.0
+cymem==1.30
+Cython==0.23.4
+cytoolz==0.7.5
+datashape==0.4.7
+decorator==4.0.9
+descartes==1.0.2
+dill==0.2.4
+Django==1.9.2
+docutils==0.12
+dynd==9b63882
+enum34==1.0.4
+fastcache==1.0.2
+Fiona==1.6.3
+Flask==0.10.1
+folium==0.2.0
+ftfy==4.1.1
+funcsigs==0.4
+futures==3.0.3
+fuzzywuzzy==0.10.0
+GDAL==1.11.3
+gensim==0.12.4
+geopandas==0.1.1
+geopy==1.10.0
+gevent==1.0.1
+gevent-websocket==0.9.3
+greenlet==0.4.9
+grin==1.2.1
+gunicorn==19.1.0
+h5py==2.5.0
+httpretty==0.8.10
+idna==2.0
+ijson==2.3
+ipaddress==1.0.14
+ipykernel==4.1.1
+ipython==4.0.1
+ipython-genutils==0.1.0
+ipywidgets==4.1.0
+itsdangerous==0.24
+jdcal==1.0
+jedi==0.9.0
+Jinja2==2.8
+jsonschema==2.4.0
+jupyter==1.0.0
+jupyter-client==4.1.1
+jupyter-console==4.0.3
+jupyter-core==4.0.6
+llvmlite==0.8.0
+lxml==3.4.4
+MarkupSafe==0.23
+matplotlib==1.5.1
+mistune==0.7.1
+mpld3==0.2
+multipledispatch==0.4.8
+munch==2.0.4
+murmurhash==0.26.3
+mwparserfromhell==0.4.3
+nbconvert==4.0.0
+nbformat==4.0.1
+networkx==1.11
+nltk==3.2.1
+nose==1.3.7
+notebook==4.0.6
+numba==0.22.1
+numexpr==2.4.4
+numpy==1.11.0
+odo==0.3.4
+openpyxl==2.2.6
+pandas==0.18.0
+path.py==0.0.0
+patsy==0.4.0
+pep8==1.6.2
+pexpect==3.3
+pickleshare==0.5
+Pillow==3.0.0
+plac==0.9.1
+ply==3.8
+preshed==0.46.3
+psutil==3.3.0
+psycopg2==2.6.1
+ptyprocess==0.5
+py==1.4.30
+pyasn1==0.1.9
+PyAudio==0.2.7
+pycosat==0.6.1
+pycparser==2.14
+pycrypto==2.6.1
+pycurl==7.19.5.1
+pyflakes==1.0.0
+Pygments==2.0.2
+pyOpenSSL==0.15.1
+pyparsing==2.0.3
+Pyphen==0.9.4
+pyproj==1.9.5.1
+PySAL==1.11.0
+pytagcloud==0.3.5
+pytest==2.8.1
+python-dateutil==2.4.2
+python-rake==1.0.6
+pytz==2015.7
+PyYAML==3.11
+pyzmq==14.7.0
+qtconsole==4.1.1
+redis==2.10.3
+requests==2.8.1
+rope==0.9.4
+Rtree==0.8.2
+scikit-image==0.11.3
+scikit-learn==0.17.1
+scipy==0.17.0
+seaborn==0.7.0
+semver==2.4.1
+Shapely==1.5.13
+simplegeneric==0.8.1
+simplejson==3.8.2
+singledispatch==3.4.0.3
+six==1.10.0
+smart-open==1.3.2
+snowballstemmer==1.2.0
+sockjs-tornado==1.0.1
+spacy==0.100.6
+Sphinx==1.3.1
+sphinx-rtd-theme==0.1.7
+sputnik==0.9.3
+spyder==2.3.8
+SQLAlchemy==1.0.12
+statsmodels==0.6.1
+sympy==0.7.6.1
+tables==3.2.2
+terminado==0.5
+textacy==0.2.0
+thinc==5.0.7
+toolz==0.7.4
+tornado==4.3
+traitlets==4.0.0
+ujson==1.35
+unicodecsv==0.14.1
+Unidecode==0.4.19
+vincent==0.4.4
+virtualenv==14.0.6
+Werkzeug==0.11.2
+wordcloud==1.2.1
+xlrd==0.9.4
+XlsxWriter==0.7.7
+xlwings==0.5.0
+xlwt==1.0.0
