@@ -18,7 +18,7 @@ from collections import OrderedDict
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import mpld3
-import json
+import ujson
 
 app = Flask(__name__)
 
