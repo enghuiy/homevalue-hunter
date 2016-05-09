@@ -1,4 +1,5 @@
 nomkl
+nomkl
 numpy
 scipy
 scikit-learn
