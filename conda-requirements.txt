@@ -1,3 +1,10 @@
 nomkl
 numpy
-scipy
+flask
+jinja2
+gunicorn
+psycopg2
+ujson
+matplotlib
+mpld3
+
