@@ -136,7 +136,7 @@ def index():
       #get the shapejsons from postgresql
     try:
       queryString=generateQueryString_json(app.validids)
-      print queryString
+      #print queryString
       cur.execute(queryString)
     except:
       print "cannot get jsons from database"
@@ -202,7 +202,7 @@ def map_test():
   #get the shapejsons from postgresql
   try:
     queryString=generateQueryString_json(app.validids)
-    print queryString
+    #print queryString
     cur.execute(queryString)
   except:
     print "cannot get jsons from database"
@@ -274,8 +274,8 @@ def info(refid):
     walkability="%d" % data[5] if data[5] else 'no data'
     
     keytext=data[6] if data[6] else ''
-    keytext = ''
-    
+    #keytext = ''
+    #print keytext
     # wordcloud
     if keytext:
       fig, ax = plt.subplots()
@@ -586,5 +586,5 @@ def generateHTML_fitstats(coeffs,intercept,r2):
 
 # RUN
 if __name__ == '__main__':
-  app.run(port=33507)
-#  app.run(debug=True,port=5001)
+  #  app.run(port=33507)
+  app.run(debug=True,port=5001)
