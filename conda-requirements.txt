@@ -1,4 +1,6 @@
 nomkl
+numpy
+bokeh
 scikit-learn
 flask
 jinja2
