@@ -168,7 +168,7 @@ def index():
     except:
       return "Error: unable to connect to database"
   cur = conn.cursor()
-    #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
   #get user-defined search area
   cur.execute("""select locale_name from refshape;""") # add state later
   data = cur.fetchall()
@@ -228,10 +228,6 @@ def method():
 @app.route('/plots')
 def plots():
   return render_template('plots.html')
-
-@app.route('/ahead')
-def ahead():
-  return render_template('ahead.html')
 
 @app.route('/info/<int:refid>')
 def info(refid):
@@ -296,68 +292,6 @@ def info(refid):
       
     return render_template('locale_info.html',msg='',name=localename,medhomeprice=medhomeprice,school=school,crime=crime,roi=roi,traveltime=traveltime,walkability=walkability,cloudjson=cloudjson)
     #return render_template('test.html',json=cloud_json)
-
-@app.route('/alternatives')
-def alternatives():
-  refnames=['Yonkers','Greenburg','White Plains','New Rochelle','Eastchester','Bronxville','Edgemont','Scarsdale']
-  prices_actual=[407.975,410.360,501.440,564.475,609.400,678.300,953.500,1452.200]
-  good_features=[0,0,0,0,1,1,1,1]
-  
-  minhouseprice = 407.925 
-  cost_elemschool = 5.845
-  cost_highschool = 22.477
-  cost_perchild = 9*cost_elemschool + 4*cost_highschool
-  maxchild = 5
-  prices_alternate1 = [ minhouseprice+cost_perchild*i for i in range(1,maxchild+1)]
-
-  prices_alternateStep = sorted([minhouseprice,minhouseprice]+prices_alternate1+prices_alternate1[:-1])
-  childlistStep=[0,1,1,2,2,3,3,4,4,5]
-  
-  nLocales = len(refnames)
-  
-  TOOLS = ''
-
-  sorted_label_prices = sorted(zip(refnames,prices_actual),key=lambda x:x[1])
-  t=zip(*sorted_label_prices)
-
-  plot = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='No. of children',tools=TOOLS)
-  plot.line(childlistStep,prices_alternateStep,color='black',line_width=3)
-
-  plot.circle(0,t[1][0], color='orange',size=15, alpha=1)
-  mtext(plot,0,(t[1][0]+60), "cheapest")
-  mtext(plot,0,(t[1][0]+20), "locale")
-
-  plot.line([0,maxchild],[t[1][4],t[1][4]], color='blue',line_width=3)
-  mtext(plot, 2.5,(t[1][4]+1), "cheapest 'good school' locale")
-
-
-  plot1 = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
-  source1 = ColumnDataSource(data=dict(label=t[0],x=range(nLocales),ay=t[1]))
-
-  plot1.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1, legend="Locales with good schools")
-  plot1.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1,legend="Locales with bad schools")
-  plot1.legend.orientation = "top_left"
-  
-#  hover = plot.select(dict(type=HoverTool))
-#  hover.tooltips = OrderedDict([("Locale ", "@label"),("Price ", "@ay")])
-
-  plot2 = figure(width=600, height=400,y_axis_label='Home Price ($ thousands)', x_axis_label='Locales',tools=TOOLS)
-  for i in range(maxchild):
-    plot2.line([0,nLocales],[prices_alternate1[i],prices_alternate1[i]],color='blue',line_dash=[10,10],line_width=1)
-    if i==0:
-      mtext(plot2, 0,(prices_alternate1[i]+1), "house + %d tuition" % (i+1))
-    else:
-      mtext(plot2, 0,(prices_alternate1[i]+1), "house + %d tuitions" % (i+1))
-
-
-  plot2.circle(range(0,4), t[1][0:4], color='orange',size=15, alpha=1)
-  plot2.circle(range(4,8), t[1][4:8], color='blue',size=15, alpha=1)
-
-  #script, (div1, div2) = components((plot1, plot2))
-  script, div = components(plot)
-
-  return render_template('alternatives.html', script=script, div=div)
-
 
 #===================================================
  
