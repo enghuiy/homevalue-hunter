@@ -1,12 +1,2 @@
 nomkl
 numpy
-scipy
-scikit-learn
-bokeh
-flask
-jinja2
-gunicorn
-psycopg2
-ujson
-matplotlib
-mpld3
