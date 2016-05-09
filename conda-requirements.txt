@@ -4,4 +4,7 @@ flask
 jinja2
 gunicorn
 psycopg2
+ujson
+matplotlib
+mpld3
 
