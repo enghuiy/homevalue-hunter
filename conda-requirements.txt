@@ -9,4 +9,4 @@ psycopg2
 ujson
 matplotlib
 mpld3
-wordcloud
+-c https://conda.anaconda.org/amueller wordcloud
