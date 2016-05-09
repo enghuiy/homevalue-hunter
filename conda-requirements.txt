@@ -1,5 +1,5 @@
 nomkl
-numpy
+scikit-learn
 flask
 jinja2
 gunicorn
