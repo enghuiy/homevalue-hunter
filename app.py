@@ -7,8 +7,8 @@ import urlparse
 
 import math
 import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import Imputer
+from sklearn.linear_model import LinearRegression,Lasso
+from sklearn.preprocessing import Imputer,StandardScaler
 
 from bokeh.plotting import *
 from bokeh.embed import components
@@ -99,7 +99,7 @@ def index():
     # 3) select price,features from lines matching these refshp_indices
 #    cur.execute("""SELECT refshape.name,zprice,sch_perform FROM price2features JOIN refshape ON price2features.refshpindex=refshape.refshpindex WHERE sch_perform > 0;""")
     queryString = generateQueryString_priceFeatures(app.vars['qfeatures'],app.selectedids)
-    #print queryString
+    print queryString
     cur.execute(queryString)
     
     data=zip(*cur.fetchall())
@@ -121,6 +121,8 @@ def index():
     # run linear regression
     coeffs,intercept,r2,app.prices_predicted =  linearRegression(app.features,app.prices_actual)
     app.locscores = [ (app.prices_actual[i]-app.prices_predicted[i])/app.prices_predicted[i]*100 for i in range(len(app.prices_predicted))]
+    print "r2=",r2
+    fitString=getFitString(app.vars['qfeatures'],intercept,coeffs)
 
     # write out fit stats
     #==========================================================
@@ -151,10 +153,10 @@ def index():
       temp.append(t3)
     
     geojsonFeatures_new='{"type": "FeatureCollection", "features": ['+','.join(temp)+']}'
-    return render_template('map_test.html', featureString=app.feature_string,gjson=geojsonFeatures_new,center_lat=app.zlat,center_long=app.zlong)
+    return render_template('map_test.html', fit_string=fitString,gjson=geojsonFeatures_new,center_lat=app.zlat,center_long=app.zlong)
 
   # GET METHOD
-      # get data from postgresql
+  # get data from postgresql
   try:
     urlparse.uses_netloc.append("postgres")
     url = urlparse.urlparse(os.environ["DATABASE_URL"])
@@ -264,9 +266,9 @@ def info(refid):
       return render_template('locale_info.html',msg='No locale info found')
     medhomeprice="%d" % data[0] if data[0] else 'no data'
     school="%.1d" % data[1] if data[1] else 'no data'
-    crime="%.2f" % data[2] if data[2] else 'no data'
+    crime="%.2f" % -data[2] if data[2] else 'no data'
     roi="%.2f" % data[3] if data[3] else 'no data'
-    traveltime="%.2f" % data[4] if data[4] else 'no data'
+    traveltime="%.2f" % -data[4] if data[4] else 'no data'
     walkability="%d" % data[5] if data[5] else 'no data'
     
     keytext=data[6] if data[6] else ''
@@ -293,6 +295,34 @@ def info(refid):
     return render_template('locale_info.html',msg='',name=localename,medhomeprice=medhomeprice,school=school,crime=crime,roi=roi,traveltime=traveltime,walkability=walkability,cloudjson=cloudjson)
     #return render_template('test.html',json=cloud_json)
 
+@app.route('/example')
+def example_graph():
+
+    # get data from postgresql
+    try:
+      urlparse.uses_netloc.append("postgres")
+      url = urlparse.urlparse(os.environ["DATABASE_URL"])
+      try:
+        conn = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+      except:
+        return "Error: unable to connect to database"
+    except:
+      try:
+        conn = psycopg2.connect("dbname='nysRealEstate' user='enghuiy' host='localhost' password=''")
+      except:
+        return "Error: unable to connect to database"
+      
+    cur = conn.cursor()
+
+
+    coeffs,intercept,r2,app.prices_predicted =  linearRegression(features,prices_actual)
+
+  #plot with bokeh
+  script, div = plotLR(features,prices_actual,prices_predicted,refnames,coeffs[0],intercept,r2)
+  coeff_string=''
+  return render_template('graph.html', script=script, div=div, featureString=app.feature_string,coeffString=coeff_string,intercept='%d'%intercept,r2='%4.2f'%r2)
+#return render_template('temp.html',data=homevalue[0])
+
 #===================================================
  
 def distance_on_unit_sphere(lat1, long1, lat2, long2):
@@ -312,6 +342,8 @@ def distance_on_unit_sphere(lat1, long1, lat2, long2):
     # Compute spherical distance from spherical coordinates.
     cos = (math.sin(phi1)*math.sin(phi2)*math.cos(theta1 - theta2) +
            math.cos(phi1)*math.cos(phi2))
+    cos =  min(1,max(cos,-1))
+
     arc = math.acos( cos )
  
     # multiply arc by the radius of the earth in desired unit.
@@ -324,15 +356,33 @@ def fillNAs(Xtrain_in):
   return imp.fit_transform(Xtrain_in)
 
 def linearRegression(features,prices_actual):
-    lin_reg = LinearRegression(normalize=True)
-    lin_reg.fit(features,prices_actual)
+  #prices_actual=[ math.log(x) for x in prices_actual0]
+  #ss_X = StandardScaler()
+  #X = ss_X.fit_transform(features)
+  X=features
+  lin_reg = LinearRegression()
+  lin_reg.fit(X,prices_actual)
 
-    prices_predicted = lin_reg.predict(features)
-    coeffs = lin_reg.coef_
-    intercept = lin_reg.intercept_
-    r2=lin_reg.score(features,prices_actual)
+  #prices_predicted = [math.exp(x) for x in lin_reg.predict(features)]
+  prices_predicted = lin_reg.predict(X)
+  coeffs = lin_reg.coef_
+  intercept = lin_reg.intercept_
+  r2=lin_reg.score(X,prices_actual)
 
-    return (coeffs,intercept,r2,prices_predicted)
+  return (coeffs,intercept,r2,prices_predicted)
+
+def linearRegressionPositive(features,prices_actual):
+  #prices_actual=[ math.log(x) for x in prices_actual0]
+  lin_reg = Lasso(alpha=1,positive=True)
+  lin_reg.fit(features,prices_actual)
+  
+  #prices_predicted = [math.exp(x) for x in lin_reg.predict(features)]
+  prices_predicted = lin_reg.predict(features)
+  coeffs = lin_reg.coef_
+  intercept = lin_reg.intercept_
+  r2=lin_reg.score(features,prices_actual)
+
+  return (coeffs,intercept,r2,prices_predicted)
 
 # PLOTTING WITH BOKEH
 def mtext(p, x, y, text):
@@ -466,6 +516,46 @@ def getFeatureString(featurelist):
       outstring+=', '
   return outstring
 
+def getFitStringStd(featurelist,intercept,coeffs):
+  outstring="Expected home price ($'000) = %d" % int(intercept//1000)
+  for i,f in enumerate(featurelist):
+    print coeffs[i]
+    outstring += ' +' if coeffs[i] >= 0 else ' '
+    outstring += '%d*' % (coeffs[i]//1000)
+    if f=='school_performance':
+      outstring += 'z<sub>school</sub>'
+    elif f=='crime_rate':
+      outstring+='z<sub>crime</sub>'
+    elif f=='commute_time':
+      outstring+='z<sub>commute</sub>'
+    elif f=='walkability':
+      outstring+='<sub>walkability</sub>'
+    elif f=='roi':
+      outstring+='<sub>ROI</sub>'
+    else:
+      pass
+  return outstring
+
+def getFitString(featurelist,intercept,coeffs):
+  outstring="Expected home price ($'000) = %d" % int(intercept//1000)
+  for i,f in enumerate(featurelist):
+    print coeffs[i]
+    outstring += ' +' if coeffs[i] >= 0 else ' '
+    outstring += '%d*' % (coeffs[i]//1000)
+    if f=='school_performance':
+      outstring += 'school'
+    elif f=='crime_rate':
+      outstring+='crime'
+    elif f=='commute_time':
+      outstring+='commute'
+    elif f=='walkability':
+      outstring+='walkability'
+    elif f=='roi':
+      outstring+='ROI'
+    else:
+      pass
+  return outstring
+
 # generate the query to get features
 def generateQueryString_priceFeatures(featurelist,refshpindexlist):
     featurestring=''
@@ -497,25 +587,6 @@ def generateQueryString_json(refshpindexlist):
     outstring='SELECT json FROM refshape WHERE '+ criteriastring + ';'
         
     return outstring
-
-
-def generateHTML_fitstats(coeffs,intercept,r2):
-  outstring='Baseline price = $%dK<br>' % intercept/1000
-  for i,f in enumerate(featurelist):
-    if f=='school_performance':
-      featurestring += 'school performance: '
-    elif f=='crime_rate':
-      featurestring+='crimerate_total'
-    elif f=='commute_time':
-      featurestring+='commute_time'
-    elif f=='walkability':
-      featurestring+='walkability'
-    elif f=='roi':
-      featurestring+='roi'
-    else:
-      pass
-    if i<len(featurelist)-1:
-      featurestring+=','
 
 
 # RUN
